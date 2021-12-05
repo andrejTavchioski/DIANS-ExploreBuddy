@@ -21,4 +21,24 @@ public class LocationsController {
     public void postLocation(@RequestBody Location location){
         locationsService.post(location);
     }
+
+    @GetMapping("/favourites")
+    public List<Location> getFavourites(){
+        return locationsService.getFavourites();
+    }
+
+    @GetMapping("/by_name")
+    public List<Location> getByName(@RequestBody String name){
+        return locationsService.getByName(name);
+    }
+
+    @GetMapping("/location_type")
+    public List<Location> getByLocationType(@RequestBody String type){
+        return locationsService.getAllByType(type);
+    }
+
+    @PostMapping("/add_favourite")
+    public void addFavourite(Location location){
+        locationsService.post(location);
+    }
 }
