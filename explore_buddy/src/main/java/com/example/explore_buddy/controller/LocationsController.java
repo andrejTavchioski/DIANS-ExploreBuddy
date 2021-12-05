@@ -28,17 +28,17 @@ public class LocationsController {
     }
 
     @GetMapping("/by_name")
-    public List<Location> getByName(@RequestBody String name){
+    public List<Location> getByName(@RequestParam String name){
         return locationsService.getByName(name);
     }
 
     @GetMapping("/location_type")
-    public List<Location> getByLocationType(@RequestBody String type){
+    public List<Location> getByLocationType(@RequestParam String type){
         return locationsService.getAllByType(type);
     }
 
-    @PostMapping("/add_favourite")
-    public void addFavourite(Location location){
-        locationsService.post(location);
+    @GetMapping("/add_favourite")
+    public void addFavourite(Integer id){
+        locationsService.updateLocation(id);
     }
 }

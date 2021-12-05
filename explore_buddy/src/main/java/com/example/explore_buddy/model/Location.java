@@ -18,17 +18,17 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_sequence")
     private Integer id;
     private String name;
-    private Long lon;
-    private Long lat;
+    private Double lon;
+    private Double lat;
     private String description;
     private LocationType locationType;
     private Boolean favourite;
-    public Location(String name, Long lon, Long lat, String description, LocationType locationType){
+    public Location(String name, Double lon, Double lat, String description, LocationType locationType,Boolean favourite){
         this.name=name;
         this.lon=lon;
         this.lat=lat;
         this.description=description;
         this.locationType=locationType;
-        this.favourite=false;
+        this.favourite=favourite;
     }
 }

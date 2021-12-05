@@ -11,4 +11,5 @@ public interface ILocationsService {
     List<Location> getByName(String name);
     List<Location> getAllByType(String type);
     List<Location> getFavourites();
+    void updateLocation(Integer id);
 }

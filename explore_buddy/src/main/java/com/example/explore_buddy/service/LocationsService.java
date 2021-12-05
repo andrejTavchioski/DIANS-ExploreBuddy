@@ -39,4 +39,17 @@ public class LocationsService implements ILocationsService {
         return locationsRepository.findByFavourite(true);
     }
 
+    @Override
+    public void updateLocation(Integer id) {
+        Location toupdate=locationsRepository.findById(id).orElse(null);
+        if(toupdate!=null)
+        {
+            if(toupdate.getFavourite())
+                toupdate.setFavourite(false);
+            else
+                toupdate.setFavourite(true);
+            locationsRepository.save(toupdate);
+        }
+    }
+
 }
