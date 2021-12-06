@@ -1,5 +1,6 @@
 package com.example.explore_buddy.model;
 
+import com.example.explore_buddy.model.enumeration.LocationType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,19 +1,17 @@
 package com.example.explore_buddy.service;
 
 import com.example.explore_buddy.model.Location;
-import com.example.explore_buddy.model.LocationType;
-import com.example.explore_buddy.repository.ILocationsRepository;
-import org.springframework.data.util.Streamable;
+import com.example.explore_buddy.model.enumeration.LocationType;
+import com.example.explore_buddy.repository.LocationsRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class LocationsService implements ILocationsService {
 //    @Autowired
-    private ILocationsRepository locationsRepository;
-    public LocationsService(ILocationsRepository locationsRepository){
+    private LocationsRepository locationsRepository;
+    public LocationsService(LocationsRepository locationsRepository){
         this.locationsRepository=locationsRepository;
     }
     @Override
