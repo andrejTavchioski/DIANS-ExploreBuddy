@@ -13,5 +13,5 @@ public interface ILocationsRepository extends JpaRepository<Location,Integer> {
     List<Location> findByName(String name);
     List<Location> findAllByLocationType(LocationType locationType);
     List<Location> findByFavourite(Boolean favourite);
-
+    List<Location> findLocationsByNameContains(String name);
 }

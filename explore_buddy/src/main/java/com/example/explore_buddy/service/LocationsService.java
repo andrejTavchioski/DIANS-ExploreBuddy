@@ -52,4 +52,9 @@ public class LocationsService implements ILocationsService {
         }
     }
 
+    @Override
+    public List<Location> getAllByNameSearch(String name) {
+        return locationsRepository.findLocationsByNameContains(name);
+    }
+
 }

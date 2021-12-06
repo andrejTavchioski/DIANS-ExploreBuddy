@@ -41,4 +41,14 @@ public class LocationsController {
     public void addFavourite(Integer id){
         locationsService.updateLocation(id);
     }
+
+    @GetMapping("/search")
+    public List<Location> getByNameSearch(@RequestParam String name){
+        return locationsService.getAllByNameSearch(name);
+    }
+
+    @PostMapping("/add")
+    public void addLocation(@RequestBody Location location){
+        locationsService.post(location);
+    }
 }
