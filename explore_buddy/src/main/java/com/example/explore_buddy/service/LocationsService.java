@@ -3,8 +3,10 @@ package com.example.explore_buddy.service;
 import com.example.explore_buddy.model.Location;
 import com.example.explore_buddy.model.LocationType;
 import com.example.explore_buddy.repository.ILocationsRepository;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,6 +56,8 @@ public class LocationsService implements ILocationsService {
 
     @Override
     public List<Location> getAllByNameSearch(String name) {
+//        Streamable<Location> result = locationsRepository.findByNameContaining(name);
+//        return result.toList();
         return locationsRepository.findByNameContains(name);
     }
 
