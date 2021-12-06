@@ -1,6 +1,5 @@
 package com.example.explore_buddy.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

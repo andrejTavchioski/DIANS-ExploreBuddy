@@ -1,7 +1,6 @@
 package com.example.explore_buddy.service;
 
 import com.example.explore_buddy.model.Location;
-import com.example.explore_buddy.model.LocationType;
 
 import java.util.List;
 
