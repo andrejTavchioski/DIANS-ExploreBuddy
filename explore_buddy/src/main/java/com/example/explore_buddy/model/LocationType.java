@@ -1,5 +1,0 @@
-package com.example.explore_buddy.model;
-
-public enum LocationType {
-    SPRING, LAKE, PEAK, LODGE, CAVE, WATERFALL
-}
