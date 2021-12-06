@@ -1,12 +1,13 @@
 package com.example.explore_buddy.service;
 
+import com.example.explore_buddy.helpers.CSVHelper;
 import com.example.explore_buddy.model.Location;
-import com.example.explore_buddy.model.LocationType;
+import com.example.explore_buddy.model.enumeration.LocationType;
 import com.example.explore_buddy.repository.ILocationsRepository;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -56,9 +57,16 @@ public class LocationsService implements ILocationsService {
 
     @Override
     public List<Location> getAllByNameSearch(String name) {
-//        Streamable<Location> result = locationsRepository.findByNameContaining(name);
-//        return result.toList();
         return locationsRepository.findByNameContains(name);
     }
-
+    public List<Location> importFromCsv(MultipartFile file){
+        try {
+            String name=file.getOriginalFilename().substring(0,file.getOriginalFilename().length()-4);
+            List<Location> locations = CSVHelper.csvToLocations(file.getInputStream(),name);
+            locationsRepository.saveAll(locations);
+            return locations;
+        } catch (IOException e) {
+            throw new RuntimeException("fail to store csv data: " + e.getMessage());
+        }
+    }
 }

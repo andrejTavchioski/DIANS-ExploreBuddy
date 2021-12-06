@@ -1,9 +1,8 @@
 package com.example.explore_buddy.repository;
 
 import com.example.explore_buddy.model.Location;
-import com.example.explore_buddy.model.LocationType;
+import com.example.explore_buddy.model.enumeration.LocationType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 
