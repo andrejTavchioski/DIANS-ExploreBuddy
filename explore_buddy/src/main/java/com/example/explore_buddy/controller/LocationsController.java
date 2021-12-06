@@ -27,11 +27,6 @@ public class LocationsController {
         return locationsService.getFavourites();
     }
 
-    @GetMapping("/by_name")
-    public List<Location> getByName(@RequestParam String name){
-        return locationsService.getByName(name);
-    }
-
     @GetMapping("/location_type")
     public List<Location> getByLocationType(@RequestParam String type){
         return locationsService.getAllByType(type);

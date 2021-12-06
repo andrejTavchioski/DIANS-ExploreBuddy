@@ -4,6 +4,7 @@ import com.example.explore_buddy.model.Location;
 import com.example.explore_buddy.model.LocationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -13,5 +14,6 @@ public interface ILocationsRepository extends JpaRepository<Location,Integer> {
     List<Location> findByName(String name);
     List<Location> findAllByLocationType(LocationType locationType);
     List<Location> findByFavourite(Boolean favourite);
-    List<Location> findLocationsByNameContains(String name);
+    Streamable<Location> findByNameContaining(String name);
+    List<Location> findByNameContains(String name);
 }
