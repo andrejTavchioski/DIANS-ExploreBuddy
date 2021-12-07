@@ -10,17 +10,12 @@ const useToggleFavouritePlace = () => {
     const toggleFavouritePlace = async ({ id }) => {
         setIsLoading(true);
         await axios
-            .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+            .get(`https://jsonplaceholder.typicode.com/posts/1`)
             .then((res) => {
-                console.log('HOOK');
+                // TODO DELETE MOCKING
                 let inc = fav.includes(id);
-                if (inc) {
-                    fav = fav.filter((i) => i !== id);
-                } else {
-                    fav.push(id);
-                }
-                console.log(fav);
-                updateUIMarker({ id, isFavourite: !inc });
+                fav.push(id);
+                updateUIMarker({ id, isFavourite: !inc }); // res.data.isFavourite
             })
             .catch((err) => {
                 console.log(err);
