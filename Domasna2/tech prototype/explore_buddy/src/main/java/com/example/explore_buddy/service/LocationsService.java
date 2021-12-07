@@ -36,13 +36,13 @@ public class LocationsService implements ILocationsService {
 
     @Override
     public List<Location> getAllByType(String type) {
-        return locationsRepository.findAllByLocationType(LocationType.valueOf(type));
+        return locationsRepository.findAllByType(LocationType.valueOf(type));
     }
 
-    @Override
-    public List<Location> getFavourites() {
-        return locationsRepository.findByFavourite(true);
-    }
+//    @Override
+//    public List<Location> getFavourites() {
+//        return locationsRepository.findByFavourite(true);
+//    }
 
 //    @Override
 //    public void updateLocation(Integer id) {

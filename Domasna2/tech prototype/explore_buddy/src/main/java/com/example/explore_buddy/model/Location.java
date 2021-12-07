@@ -14,19 +14,19 @@ import javax.persistence.*;
 @Setter
 public class Location {
     @Id
-    @SequenceGenerator(name = "location_sequence_generator", sequenceName = "location_sequence", allocationSize = 1, initialValue = 0)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_sequence")
+    @SequenceGenerator(name = "location_sequence_generator", sequenceName = "location_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_sequence_generator")
     private Integer id;
     private String name;
     private Double lon;
     private Double lat;
-    private String desc;
+    private String description;
     private LocationType type;
     public Location(String name, Double lon, Double lat, String description, LocationType locationType){
         this.name=name;
         this.lon=lon;
         this.lat=lat;
-        this.desc=description;
+        this.description=description;
         this.type=locationType;
     }
 }

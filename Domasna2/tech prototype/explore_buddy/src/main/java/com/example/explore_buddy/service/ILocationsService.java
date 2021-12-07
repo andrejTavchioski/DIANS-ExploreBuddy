@@ -11,7 +11,7 @@ public interface ILocationsService {
     void post(Location location);
     List<Location> getByName(String name);
     List<Location> getAllByType(String type);
-    List<Location> getFavourites();
+//    List<Location> getFavourites();
 //    void updateLocation(Integer id);
     List<Location> getAllByNameSearch(String name);
     List<Location> importFromCsv(MultipartFile file);

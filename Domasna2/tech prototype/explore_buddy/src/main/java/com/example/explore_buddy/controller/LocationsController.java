@@ -47,16 +47,16 @@ public class LocationsController {
 
 }
 
-    @GetMapping("/favourites")
-    public List<Location> getFavourites(){
-        return locationsService.getFavourites();
-    }
+//    @GetMapping("/favourites")
+//    public List<Location> getFavourites(){
+//        return locationsService.getFavourites();
+//    }
     @GetMapping("/markers")
     public List<DescriptionlessLocation> getMarkers(){return locationsService.getAllLocationMarkers();}
-    @GetMapping("/location_type")
-    public List<Location> getByLocationType(@RequestParam String type){
-        return locationsService.getAllByType(type);
-    }
+//    @GetMapping("/location_type")
+//    public List<Location> getByLocationType(@RequestParam String type){
+//        return locationsService.getAllByType(type);
+//    }
 
 //    @GetMapping("/add_favourite")
 //    public void addFavourite(Integer id){
