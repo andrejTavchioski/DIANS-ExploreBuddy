@@ -20,7 +20,7 @@ const Description = ({ onEditClick }) => {
     const { user } = useContext(UserContext);
     const { toggleFavouritePlace } = useToggleFavouritePlace();
     const {
-        selectedPlace: { id, desc, name, isFavourite },
+        selectedPlace: { id, description, name, isFavourite },
     } = useContext(UtilsContext);
     return (
         <Wrapper>
@@ -39,7 +39,7 @@ const Description = ({ onEditClick }) => {
             </HeaderWrapper>
             <DescTextWrapper>
                 <DescText>Description:</DescText>
-                <DescText>{desc ?? ''}</DescText>
+                <DescText>{description ?? ''}</DescText>
             </DescTextWrapper>
         </Wrapper>
     );

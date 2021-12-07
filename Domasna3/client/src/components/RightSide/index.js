@@ -63,7 +63,7 @@ const RightSide = ({ searchValue }) => {
     const { signIn } = useSignIn();
     const { signOut } = useSignOut();
     const { signUp } = useSignUp();
-    const { getFavouritePlaces, favouritePlaces } = useGetFavouritePlaces();
+    const { getFavouritePlaces } = useGetFavouritePlaces();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
     const [authModal, setAuthModal] = useState({
@@ -80,11 +80,10 @@ const RightSide = ({ searchValue }) => {
 
     const handleSelectValue = async (e) => {
         const val = e.target.value;
-        let currFav;
+        let _favouritePlaces;
         if (val === placesType.FAVOURITE && !selectedValues.includes(val)) {
-            currFav = await getFavouritePlaces();
+            _favouritePlaces = await getFavouritePlaces();
         }
-        let _favouritePlaces = favouritePlaces ?? currFav;
         let newValues;
         if (selectedValues.includes(val)) {
             const filtered = selectedValues.filter((v) => v !== val);
@@ -100,18 +99,14 @@ const RightSide = ({ searchValue }) => {
             newValues.length === 0 ||
             (newValues.length === 1 && newValues[0] === placesType.FAVOURITE)
         ) {
-            console.log('VELZE');
             _filteredMarkers = [...markersData];
         }
         let filteredByValuesAndFavourite = null;
         if (newValues.includes(placesType.FAVOURITE)) {
-            console.log(_filteredMarkers);
-            console.log(_favouritePlaces);
             filteredByValuesAndFavourite = _filteredMarkers.filter(({ id }) =>
                 _favouritePlaces.includes(id)
             );
             _filteredMarkers = filteredByValuesAndFavourite;
-            console.log(_filteredMarkers);
         }
 
         setSelectedValues(newValues);

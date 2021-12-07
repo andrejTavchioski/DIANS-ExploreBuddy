@@ -25,8 +25,8 @@ public class LocationsService implements ILocationsService {
     }
 
     @Override
-    public void post(Location location) {
-        locationsRepository.save(location);
+    public Location post(Location location) {
+        return locationsRepository.save(location);
     }
 
     @Override

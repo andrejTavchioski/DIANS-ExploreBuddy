@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ILocationsService {
     List<Location> getAll();
-    void post(Location location);
+    Location post(Location location);
     List<Location> getByName(String name);
     List<Location> getAllByType(String type);
 //    List<Location> getFavourites();

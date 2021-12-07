@@ -12,7 +12,7 @@ import { useContext } from 'react';
 import { UtilsContext } from '../../context/UtilsContex';
 import { placesType } from '../../config/enums';
 
-const ChoosenMarker = ({ type, isSelected, id, onMarkerClick, lt, long }) => {
+const ChoosenMarker = ({ type, isSelected, id, onMarkerClick }) => {
     let src;
     switch (type) {
         case placesType.SPRING:
@@ -43,7 +43,7 @@ const ChoosenMarker = ({ type, isSelected, id, onMarkerClick, lt, long }) => {
         <Marker
             src={src}
             style={isSelected ? selectedStyle : null}
-            onClick={() => onMarkerClick({ id, type, lat: lt, long })}
+            onClick={() => onMarkerClick({ id })}
         />
     );
 };
@@ -57,8 +57,8 @@ const GoogleMaps = ({ data }) => {
         },
         zoom: 8.5,
     };
-    const onMarkerClick = ({ id, type, lat, long }) => {
-        getPlaceDesc({ id, type, lat, long });
+    const onMarkerClick = ({ id }) => {
+        getPlaceDesc({ id });
     };
     return (
         <Wrapper>
@@ -74,9 +74,7 @@ const GoogleMaps = ({ data }) => {
                         isSelected={selectedPlace?.id === d.id}
                         id={d.id}
                         lat={d.lat}
-                        lng={d.long}
-                        lt={d.lat}
-                        long={d.long}
+                        lng={d.lon}
                         onMarkerClick={onMarkerClick}
                     />
                 ))}

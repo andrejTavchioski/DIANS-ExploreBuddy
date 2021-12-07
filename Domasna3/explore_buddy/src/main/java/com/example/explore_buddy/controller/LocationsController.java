@@ -73,7 +73,7 @@ public class LocationsController {
     }
 
     @PostMapping("/add")
-    public void addLocation(@RequestBody Location location){
-        locationsService.post(location);
+    public Location addLocation(@RequestBody Location location){
+        return locationsService.post(location);
     }
 }

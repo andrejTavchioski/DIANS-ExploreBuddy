@@ -18,8 +18,8 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
     const [editedData, setEditedData] = useState({
         name: data?.name ?? '',
         lat: data?.lat ?? '',
-        long: data?.long ?? '',
-        desc: data?.desc ?? '',
+        lon: data?.lon ?? '',
+        description: data?.description ?? '',
         type: data?.type ?? placesType.SPRING,
     });
     const title = functionality === 'edit' ? 'Edit location' : 'Add location';
@@ -44,11 +44,11 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
             </ColumnChildWrapper>
             <RowChildWrapper>
                 <ColumnChildWrapper style={{ width: '46%' }}>
-                    <Label htmlFor='long'>Long</Label>
+                    <Label htmlFor='lon'>Long</Label>
                     <Input
-                        id='long'
-                        name='long'
-                        value={editedData.long}
+                        id='lon'
+                        name='lon'
+                        value={editedData.lon}
                         onChange={onInputChange}
                     />
                 </ColumnChildWrapper>
@@ -63,12 +63,12 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
                 </ColumnChildWrapper>
             </RowChildWrapper>
             <ColumnChildWrapper>
-                <Label htmlFor='desc'>Description</Label>
+                <Label htmlFor='description'>Description</Label>
                 <DescInput
-                    id='desc'
-                    name='desc'
+                    id='description'
+                    name='description'
                     placeholder='Insert description here...'
-                    value={editedData.desc}
+                    value={editedData.description}
                     onChange={onInputChange}
                 />
             </ColumnChildWrapper>

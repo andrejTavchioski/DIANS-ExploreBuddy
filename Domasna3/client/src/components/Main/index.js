@@ -29,7 +29,6 @@ const Main = () => {
                 ...selectedPlace,
                 isFavourite: !selectedPlace.isFavourite,
             });
-            console.log('UI');
         }
     };
     const addUIMarker = ({ data }) => {

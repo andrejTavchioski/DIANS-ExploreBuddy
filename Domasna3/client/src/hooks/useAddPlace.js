@@ -8,7 +8,7 @@ const useAddPlace = () => {
     const addPlace = async ({ data, setIsOpenPlaceModal }) => {
         setIsLoading(true);
         await axios
-            .post(`https://jsonplaceholder.typicode.com/posts`, data)
+            .post(`/add`, data)
             .then((res) => {
                 addUIMarker({ data: res.data });
                 setSelectedPlace(res.data);
