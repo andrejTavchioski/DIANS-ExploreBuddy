@@ -1,8 +1,10 @@
 package com.example.explore_buddy.controller;
 
 import com.example.explore_buddy.helpers.CSVHelper;
+import com.example.explore_buddy.model.DescriptionlessLocation;
 import com.example.explore_buddy.model.Location;
 import com.example.explore_buddy.service.ILocationsService;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,20 +51,25 @@ public class LocationsController {
     public List<Location> getFavourites(){
         return locationsService.getFavourites();
     }
-
+    @GetMapping("/markers")
+    public List<DescriptionlessLocation> getMarkers(){return locationsService.getAllLocationMarkers();}
     @GetMapping("/location_type")
     public List<Location> getByLocationType(@RequestParam String type){
         return locationsService.getAllByType(type);
     }
 
-    @GetMapping("/add_favourite")
-    public void addFavourite(Integer id){
-        locationsService.updateLocation(id);
-    }
+//    @GetMapping("/add_favourite")
+//    public void addFavourite(Integer id){
+//        locationsService.updateLocation(id);
+//    }
 
     @GetMapping("/search")
     public List<Location> getByNameSearch(@RequestParam String name){
         return locationsService.getAllByNameSearch(name);
+    }
+    @GetMapping("/getLocation")
+    public Location getLocation(@RequestParam Integer id){
+        return locationsService.getLocation(id);
     }
 
     @PostMapping("/add")

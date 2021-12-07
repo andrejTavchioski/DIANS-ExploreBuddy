@@ -40,9 +40,8 @@ public class CSVHelper {
                         csvRecord.get("name"),
                         Double.parseDouble(csvRecord.get("@lon")),
                         Double.parseDouble(csvRecord.get("@lat")),
-                        "description",
-                        LocationType.valueOf(type.toUpperCase()),
-                        false);
+                        csvRecord.get("description"),
+                        LocationType.valueOf(type.toUpperCase()));
 
                 locations.add(location);
             }

@@ -1,5 +1,6 @@
 package com.example.explore_buddy.service;
 
+import com.example.explore_buddy.model.DescriptionlessLocation;
 import com.example.explore_buddy.model.Location;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +12,9 @@ public interface ILocationsService {
     List<Location> getByName(String name);
     List<Location> getAllByType(String type);
     List<Location> getFavourites();
-    void updateLocation(Integer id);
+//    void updateLocation(Integer id);
     List<Location> getAllByNameSearch(String name);
     List<Location> importFromCsv(MultipartFile file);
+    Location getLocation(Integer id);
+    List<DescriptionlessLocation> getAllLocationMarkers();
 }

@@ -20,15 +20,13 @@ public class Location {
     private String name;
     private Double lon;
     private Double lat;
-    private String description;
-    private LocationType locationType;
-    private Boolean favourite;
-    public Location(String name, Double lon, Double lat, String description, LocationType locationType,Boolean favourite){
+    private String desc;
+    private LocationType type;
+    public Location(String name, Double lon, Double lat, String description, LocationType locationType){
         this.name=name;
         this.lon=lon;
         this.lat=lat;
-        this.description=description;
-        this.locationType=locationType;
-        this.favourite=favourite;
+        this.desc=description;
+        this.type=locationType;
     }
 }
