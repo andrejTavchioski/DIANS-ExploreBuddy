@@ -224,7 +224,7 @@ const RightSide = ({ searchValue }) => {
                     {isMenuOpen ? (
                         <SelectButtonsWrapper>
                             {selectButtons.map((b, ind) => {
-                                if (b.value === 'favourite') {
+                                if (b.value === placesType.FAVOURITE) {
                                     if (user && user.role === roles.USER) {
                                         return (
                                             <SelectButton
