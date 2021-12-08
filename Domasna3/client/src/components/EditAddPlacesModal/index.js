@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { placesType } from '../../config/enums';
 import {
     Wrapper,
@@ -29,6 +29,19 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
             [e.target.name]: e.target.value,
         });
     };
+
+    useEffect(() => {
+        function callback(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('onConfirm').click();
+            }
+        }
+        window.addEventListener('keypress', callback);
+        return () => {
+            window.removeEventListener('keypress', callback);
+        };
+    });
+
     return (
         <Wrapper>
             <Title>{title ?? ''}</Title>
@@ -102,6 +115,7 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
                 </Button>
                 <Button
                     color='#329F76'
+                    id='onConfirm'
                     onClick={() =>
                         onConfirm({ data: editedData, id: data?.id })
                     }
