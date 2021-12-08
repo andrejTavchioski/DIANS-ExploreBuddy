@@ -4,7 +4,7 @@ export const roles = {
 };
 
 export const placesType = {
-    FAVOURITE: 'favourite',
+    FAVOURITE: 'FAVOURITE',
     SPRING: 'SPRING',
     PEAK: 'PEAK',
     LODGE: 'LODGE',

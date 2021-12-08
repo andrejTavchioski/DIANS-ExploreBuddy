@@ -15,7 +15,7 @@ const useGetPlaceDesc = ({ selectedPlace, setSelectedPlace }) => {
             .then(({ data }) => {
                 setSelectedPlace({
                     ...data,
-                    isFavourite: data.id % 2, // TODO DELETE MOCKING
+                    isFavourite: data.id <= 250, // TODO DELETE MOCKING
                 });
             })
             .catch((err) => {
