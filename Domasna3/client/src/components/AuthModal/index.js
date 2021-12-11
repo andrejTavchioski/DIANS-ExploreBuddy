@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
     Wrapper,
@@ -23,6 +23,19 @@ const AuthModal = ({ functionality, onCancel, onConfirm }) => {
         });
     };
     const title = functionality === 'signUp' ? 'Create an account' : 'Sign in';
+
+    useEffect(() => {
+        function callback(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('onConfirm').click();
+            }
+        }
+        window.addEventListener('keypress', callback);
+        return () => {
+            window.removeEventListener('keypress', callback);
+        };
+    });
+
     return (
         <Wrapper>
             <Title>{title ?? ''}</Title>
@@ -63,6 +76,7 @@ const AuthModal = ({ functionality, onCancel, onConfirm }) => {
                 </Button>
                 <Button
                     color='#329F76'
+                    id='onConfirm'
                     onClick={() => onConfirm({ credentials })}
                 >
                     Confirm

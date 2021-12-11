@@ -78,62 +78,71 @@ const RightSide = ({ searchValue }) => {
         setFilteredMarkers(markersData);
     }, [markersData]);
 
-    const handleSelectValue = async (e) => {
-        const val = e.target.value;
-        let _favouritePlaces;
-        if (val === placesType.FAVOURITE && !selectedValues.includes(val)) {
-            _favouritePlaces = await getFavouritePlaces();
-        }
-        let newValues;
-        if (selectedValues.includes(val)) {
-            const filtered = selectedValues.filter((v) => v !== val);
-            newValues = filtered;
-        } else {
-            newValues = [...selectedValues, val];
-        }
+    const handleMarkersFiltering = useCallback(
+        (event) => {
+            if (!markersData) return;
+            const newSelectedValue = event?.target?.value;
+            let _selectedValues = selectedValues;
+            // SELECTED VALUES
+            if (newSelectedValue) {
+                if (selectedValues.includes(newSelectedValue)) {
+                    const filtered = selectedValues.filter(
+                        (v) => v !== newSelectedValue
+                    );
+                    _selectedValues = filtered;
+                } else {
+                    _selectedValues = [...selectedValues, newSelectedValue];
+                }
+                setSelectedValues([..._selectedValues]);
+            }
 
-        let _filteredMarkers = markersData.filter((m) =>
-            newValues.includes(m.type)
-        );
-        if (
-            newValues.length === 0 ||
-            (newValues.length === 1 && newValues[0] === placesType.FAVOURITE)
-        ) {
-            _filteredMarkers = [...markersData];
-        }
-        let filteredByValuesAndFavourite = null;
-        if (newValues.includes(placesType.FAVOURITE)) {
-            filteredByValuesAndFavourite = _filteredMarkers.filter(({ id }) =>
-                _favouritePlaces.includes(id)
+            let favourite;
+            if (_selectedValues.includes(placesType.FAVOURITE)) {
+                favourite = getFavouritePlaces();
+            }
+            // FILTER BY TYPE
+            let _filteredMarkersByType =
+                _selectedValues.length === 0
+                    ? markersData
+                    : _selectedValues.includes(placesType.FAVOURITE)
+                    ? markersData.filter((m) => {
+                          if (
+                              _selectedValues.length === 1 &&
+                              favourite.includes(m.id)
+                          ) {
+                              return true;
+                          }
+                          return (
+                              _selectedValues.includes(m.type) &&
+                              favourite.includes(m.id)
+                          );
+                      })
+                    : markersData.filter((m) =>
+                          _selectedValues.includes(m.type)
+                      );
+            // FILTER BY NAME
+            let _filteredMarkersByName =
+                searchValue.trim() === ''
+                    ? markersData.map((m) => m.name.toLowerCase())
+                    : markersData
+                          .map((m) => m.name.toLowerCase())
+                          .filter((name) =>
+                              name.includes(searchValue.trim().toLowerCase())
+                          );
+
+            // FILTER BY TYPE AND NAME
+            let _filteredMarkersByTypeAndName = _filteredMarkersByType.filter(
+                (m) => _filteredMarkersByName.includes(m.name.toLowerCase())
             );
-            _filteredMarkers = filteredByValuesAndFavourite;
-        }
 
-        setSelectedValues(newValues);
-        setFilteredMarkers(_filteredMarkers);
-    };
-
-    const onSearchValueChange = useCallback(() => {
-        if (!markersData) return;
-        const val = searchValue.trim().toLowerCase();
-        const filteredByName =
-            val !== ''
-                ? markersData
-                      .filter(({ name }) => name.toLowerCase().includes(val))
-                      .map((m) => m.id)
-                : markersData.map(({ id }) => id);
-        const filteredByType = selectedValues.length
-            ? markersData.filter(({ type }) => selectedValues.includes(type))
-            : [...markersData];
-        const filteredByNameAndType = filteredByType.filter(({ id }) =>
-            filteredByName.includes(id)
-        );
-        setFilteredMarkers([...filteredByNameAndType]);
-    }, [searchValue, selectedValues, markersData]);
+            setFilteredMarkers(_filteredMarkersByTypeAndName);
+        },
+        [markersData, selectedValues, searchValue, getFavouritePlaces]
+    );
 
     useEffect(() => {
-        onSearchValueChange();
-    }, [searchValue, onSearchValueChange]);
+        handleMarkersFiltering();
+    }, [searchValue, handleMarkersFiltering]);
 
     const onCancel = () => {
         setIsOpenPlaceModal(false);
@@ -215,7 +224,7 @@ const RightSide = ({ searchValue }) => {
                     {isMenuOpen ? (
                         <SelectButtonsWrapper>
                             {selectButtons.map((b, ind) => {
-                                if (b.value === 'favourite') {
+                                if (b.value === placesType.FAVOURITE) {
                                     if (user && user.role === roles.USER) {
                                         return (
                                             <SelectButton
@@ -224,7 +233,7 @@ const RightSide = ({ searchValue }) => {
                                                     b.value
                                                 )}
                                                 key={ind}
-                                                onClick={handleSelectValue}
+                                                onClick={handleMarkersFiltering}
                                             >
                                                 {b.text}
                                             </SelectButton>
@@ -239,7 +248,7 @@ const RightSide = ({ searchValue }) => {
                                             b.value
                                         )}
                                         key={ind}
-                                        onClick={handleSelectValue}
+                                        onClick={handleMarkersFiltering}
                                     >
                                         {b.text}
                                     </SelectButton>
