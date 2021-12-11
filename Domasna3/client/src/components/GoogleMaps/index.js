@@ -55,7 +55,8 @@ const GoogleMaps = ({ data }) => {
             lat: 41.661351,
             lng: 21.703956,
         },
-        zoom: 8.5,
+        zoomMacedonia: 8.5,
+        zoomSelectedPlace: 14,
     };
     const onMarkerClick = ({ id }) => {
         getPlaceDesc({ id });
@@ -63,8 +64,16 @@ const GoogleMaps = ({ data }) => {
     return (
         <Wrapper>
             <GoogleMapReact
-                center={defaultProps.center}
-                zoom={defaultProps.zoom}
+                center={
+                    selectedPlace
+                        ? { lat: selectedPlace.lat, lng: selectedPlace.lon }
+                        : defaultProps.center
+                }
+                zoom={
+                    selectedPlace
+                        ? defaultProps.zoomSelectedPlace
+                        : defaultProps.zoomMacedonia
+                }
                 yesIWantToUseGoogleMapApiInternals={true}
             >
                 {data.map((d, ind) => (
