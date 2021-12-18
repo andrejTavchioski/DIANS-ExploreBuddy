@@ -10,15 +10,9 @@ import org.springframework.context.ApplicationContext;
 public class ExploreBuddyApplication {
 
     public static void main(String[] args) {
-        Mail mail = new Mail();
-        mail.setMailFrom("etnosfreelance@gmail.com");
-        mail.setMailTo("viktor-tasevski@hotmail.com");
-        mail.setMailSubject("Tavco smurfa");
-        mail.setMailContent("ExploreBuddy > se dr");
-//        SpringApplication.run(ExploreBuddyApplication.class, args);
-        ApplicationContext ctx = SpringApplication.run(ExploreBuddyApplication.class, args);
-        MailService mailService = (MailService) ctx.getBean("mailService");
-        mailService.sendEmail(mail);
+
+        SpringApplication.run(ExploreBuddyApplication.class, args);
+
     }
 
 }
