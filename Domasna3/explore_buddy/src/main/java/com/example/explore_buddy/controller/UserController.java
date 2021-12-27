@@ -3,6 +3,7 @@ package com.example.explore_buddy.controller;
 import com.example.explore_buddy.config.RegistrationRequest;
 import com.example.explore_buddy.config.RegistrationService;
 import com.example.explore_buddy.model.AppUser;
+import com.example.explore_buddy.model.Location;
 import com.example.explore_buddy.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class UserController {
     public void confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
         resp.sendRedirect("/home");
     }
+
 
 
 
