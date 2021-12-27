@@ -1,20 +1,13 @@
 package com.example.explore_buddy.config;
 
-import com.example.explore_buddy.model.enumeration.UserRole;
-
-public class RegistrationRequest {
-
+public class LoginRequest {
     private final String email;
     private final String password;
-    private final UserRole role;
 
-    public RegistrationRequest(String email, String password, UserRole role) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = role;
     }
-
-
 
     public String getEmail() {
         return email;
@@ -22,9 +15,5 @@ public class RegistrationRequest {
 
     public String getPassword() {
         return password;
-    }
-
-    public UserRole getRole() {
-        return role;
     }
 }

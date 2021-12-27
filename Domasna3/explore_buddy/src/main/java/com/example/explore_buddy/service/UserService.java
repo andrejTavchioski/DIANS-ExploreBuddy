@@ -1,12 +1,16 @@
 package com.example.explore_buddy.service;
 
 import com.example.explore_buddy.config.PasswordEncoder;
+import com.example.explore_buddy.config.token.ConfirmationToken;
+import com.example.explore_buddy.config.token.ConfirmationTokenService;
 import com.example.explore_buddy.model.Location;
 import com.example.explore_buddy.model.AppUser;
 import com.example.explore_buddy.repository.IUserRepository;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,15 +19,16 @@ public class UserService implements IUserService{
 
     private final IUserRepository userRepository;
     private final PasswordEncoder encoder;
-
-    public UserService(IUserRepository userRepository, PasswordEncoder encoder) {
+    private final ConfirmationTokenService tokenService;
+    public UserService(IUserRepository userRepository, PasswordEncoder encoder, ConfirmationTokenService tokenService) {
         this.userRepository = userRepository;
         this.encoder = encoder;
+        this.tokenService = tokenService;
     }
 
     @Override
     public AppUser findUserByEmail(String email) {
-        return null;
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
@@ -46,6 +51,13 @@ public class UserService implements IUserService{
         appUser.setPassword(encodedPass);
         userRepository.save(appUser);
         String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                appUser
+        );
+        tokenService.saveConfirmationToken(confirmationToken);
         return token;
     }
 

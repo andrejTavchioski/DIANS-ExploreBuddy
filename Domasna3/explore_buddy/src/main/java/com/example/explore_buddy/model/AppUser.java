@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,15 +27,15 @@ public class AppUser implements UserDetails {
     private boolean enabled;
     @Enumerated
     private UserRole userRole;
-    public AppUser(String email, String password){
+    public AppUser(String email, String password,UserRole userRole){
         this.email=email;
         this.password=password;
-        this.userRole = UserRole.ROLE_USER;
+        this.userRole = userRole;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(userRole);
     }
 
     @Override

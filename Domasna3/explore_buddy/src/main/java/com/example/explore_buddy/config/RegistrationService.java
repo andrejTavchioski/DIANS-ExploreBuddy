@@ -6,7 +6,9 @@ import com.example.explore_buddy.config.email.Mail;
 import com.example.explore_buddy.config.token.ConfirmationToken;
 import com.example.explore_buddy.config.token.ConfirmationTokenService;
 import com.example.explore_buddy.model.AppUser;
+import com.example.explore_buddy.model.enumeration.UserRole;
 import com.example.explore_buddy.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +36,25 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
+        String token;
+        if (request.getRole()==null){
+            token = userService.signUpUser(
+                    new AppUser(
+                            request.getEmail(),
+                            request.getPassword(),
+                            UserRole.ROLE_USER
+                    )
+            );
+        }else {
+            token = userService.signUpUser(
+                    new AppUser(
+                            request.getEmail(),
+                            request.getPassword(),
+                            request.getRole()
+                    )
+            );
+        }
 
-        String token = userService.signUpUser(
-                new AppUser(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
 
         String link = "http://localhost:8080/user/registration/confirm?token=" + token;
         Mail mail=new Mail();
