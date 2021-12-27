@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class LocationsService implements ILocationsService {
-//    @Autowired
+    //    @Autowired
     private ILocationsRepository locationsRepository;
-    public LocationsService(ILocationsRepository locationsRepository){
-        this.locationsRepository=locationsRepository;
+
+    public LocationsService(ILocationsRepository locationsRepository) {
+        this.locationsRepository = locationsRepository;
     }
+
     @Override
     public List<Location> getAll() {
         return locationsRepository.findAll();
@@ -26,28 +28,66 @@ public class LocationsService implements ILocationsService {
 
     @Override
     public Location post(Location location) {
+        if (location.getName() == null || location.getName().isEmpty())
+            throw new IllegalArgumentException("No name");
+        if (location.getLon() == null)
+            throw new IllegalArgumentException("Missing longitude");
+        if (location.getLon().isNaN())
+            throw new IllegalArgumentException("Invalid longitude");
+        if (location.getLat() == null)
+            throw new IllegalArgumentException("Missing latitude");
+        if (location.getLat().isNaN())
+            throw new IllegalArgumentException("Invalid latitude");
+        if (location.getType() == null)
+            throw new IllegalArgumentException("Missing type");
         return locationsRepository.save(location);
     }
 
     @Override
     public List<Location> getByName(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Missing name");
         return locationsRepository.findByName(name);
     }
 
     @Override
     public List<Location> getAllByType(String type) {
+        if (type == null || type.isEmpty())
+            throw new IllegalArgumentException("Missing type");
         return locationsRepository.findAllByType(LocationType.valueOf(type));
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+        if (location.getId() == null)
+            throw new IllegalArgumentException("Missing id");
+        if (location.getName() == null || location.getName().isEmpty())
+            throw new IllegalArgumentException("No name");
+        if (location.getLon() == null)
+            throw new IllegalArgumentException("Missing longitude");
+        if (location.getLon().isNaN())
+            throw new IllegalArgumentException("Invalid longitude");
+        if (location.getLat() == null)
+            throw new IllegalArgumentException("Missing latitude");
+        if (location.getLat().isNaN())
+            throw new IllegalArgumentException("Invalid latitude");
+        if (location.getType() == null)
+            throw new IllegalArgumentException("Missing type");
+        locationsRepository.save(location);
     }
 
 
     @Override
     public List<Location> getAllByNameSearch(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Missing name");
         return locationsRepository.findByNameContains(name);
     }
-    public List<Location> importFromCsv(MultipartFile file){
+
+    public List<Location> importFromCsv(MultipartFile file) {
         try {
-            String name=file.getOriginalFilename().substring(0,file.getOriginalFilename().length()-4);
-            List<Location> locations = CSVHelper.csvToLocations(file.getInputStream(),name);
+            String name = file.getOriginalFilename().substring(0, file.getOriginalFilename().length() - 4);
+            List<Location> locations = CSVHelper.csvToLocations(file.getInputStream(), name);
             locationsRepository.saveAll(locations);
             return locations;
         } catch (IOException e) {
@@ -57,6 +97,8 @@ public class LocationsService implements ILocationsService {
 
     @Override
     public Location getLocation(Integer id) {
+        if (id == null)
+            throw new IllegalArgumentException("Missing id");
         return locationsRepository.findById(id).orElse(null);
     }
 
@@ -64,13 +106,15 @@ public class LocationsService implements ILocationsService {
     public List<DescriptionlessLocation> getAllLocationMarkers() {
         return locationsRepository.findAll().stream()
                 .map(location -> {
-           return new DescriptionlessLocation(location.getId(),location.getName(),location.getLon(),location.getLat(),location.getType());
-        })
+                    return new DescriptionlessLocation(location.getId(), location.getName(), location.getLon(), location.getLat(), location.getType());
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteLocationById(Integer id) {
+        if (id == null)
+            throw new IllegalArgumentException("Missing id");
         locationsRepository.deleteById(id);
     }
 

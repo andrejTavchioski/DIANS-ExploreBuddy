@@ -28,15 +28,17 @@ public class UserController {
     }
 
     @GetMapping
-    public List<AppUser> getUsers(){
+    public List<AppUser> getUsers() {
         return userService.findAll();
     }
+
     @GetMapping("/getUser")
-    public AppUser getUser(@RequestParam String email){
+    public AppUser getUser(@RequestParam String email) {
         return userService.findUserByEmail(email);
     }
+
     @PostMapping("/registration")
-    public String register(@RequestBody RegistrationRequest request){
+    public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
     }
 
@@ -44,6 +46,7 @@ public class UserController {
     public String confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
         resp.sendRedirect("/home");
         return registrationService.confirmToken(token);
+
     }
     @PostMapping("/admin/registration")
     public String registerAdmin(@RequestBody RegistrationRequest request){
@@ -54,7 +57,15 @@ public class UserController {
         return loginService.login(request);
     }
 
+    @GetMapping("/favourites")
+    public List<Integer> getFavourites(@RequestParam String email) {
+        return userService.getFavourites(email);
+    }
 
+    @PutMapping("/setFavourite/{id}")
+    public void setFavourites(@RequestParam String email, @PathVariable Integer id) {
+        userService.changeFavourite(id, email);
+    }
 
 
 }

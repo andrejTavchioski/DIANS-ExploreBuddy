@@ -26,7 +26,7 @@ public class EmailService implements MailService {
             mimeMessageHelper.setSubject(mail.getMailSubject());
             mimeMessageHelper.setFrom(new InternetAddress(mail.getMailFrom(), "exploreBuddy.com"));
             mimeMessageHelper.setTo(mail.getMailTo());
-            mimeMessageHelper.setText(mail.getMailContent(),true);
+            mimeMessageHelper.setText(mail.getMailContent(), true);
 
             mailSender.send(mimeMessageHelper.getMimeMessage());
 
