@@ -21,6 +21,7 @@ public class Location {
     private Double lon;
     private Double lat;
     private String description;
+    @Enumerated
     private LocationType type;
     public Location(String name, Double lon, Double lat, String description, LocationType locationType){
         this.name=name;
