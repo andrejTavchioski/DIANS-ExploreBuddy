@@ -22,11 +22,13 @@ import { placesType } from '../../config/enums';
 import Modal from '../../Modal';
 import EditAddPlacesModal from '../EditAddPlacesModal';
 import useUpdatePlace from '../../hooks/useUpdatePlace';
+import useDeletePlace from '../../hooks/useDeletePlace';
 
 const LeftSide = ({ searchValue, setSearchValue }) => {
     const { selectedPlace } = useContext(UtilsContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { updatePlace } = useUpdatePlace();
+    const { deletePlace } = useDeletePlace();
 
     let infoBg = null;
     if (selectedPlace) {
@@ -61,6 +63,10 @@ const LeftSide = ({ searchValue, setSearchValue }) => {
         updatePlace({ data, id, setIsModalOpen });
     };
 
+    const onEditDelete = ({ id }) => {
+        deletePlace({ id, setIsModalOpen });
+    };
+
     return (
         <>
             <Modal isOpen={isModalOpen}>
@@ -68,6 +74,7 @@ const LeftSide = ({ searchValue, setSearchValue }) => {
                     functionality='edit'
                     onCancel={onEditCancel}
                     onConfirm={onEditConfirm}
+                    onDelete={onEditDelete}
                     data={selectedPlace}
                 />
             </Modal>

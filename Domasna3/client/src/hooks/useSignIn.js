@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 // import jwt from 'jwt-decode';
 import { UserContext } from '../context/UserContext';
+import { toast } from 'react-toastify';
 
 const useSignIn = () => {
     const { setUser } = useContext(UserContext);
@@ -19,12 +20,14 @@ const useSignIn = () => {
                 // localStorage.setItem('token', JSON.stringify(token));
 
                 // JUST FOR MOCK
+
                 let user = null;
                 if (
                     credentials.email === 'user@gmail.com' &&
                     credentials.password === 'user'
                 ) {
                     user = {
+                        email: 'user@gmail.com',
                         role: 'ROLE_USER',
                     };
                 } else if (
@@ -32,6 +35,7 @@ const useSignIn = () => {
                     credentials.password === 'admin'
                 ) {
                     user = {
+                        email: 'admin@gmail.com',
                         role: 'ROLE_ADMIN',
                     };
                 }
@@ -40,7 +44,15 @@ const useSignIn = () => {
                 setAuthModal({ isOpen: false });
             })
             .catch((err) => {
-                console.log(err);
+                toast.error('Invalid credentials!', {
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .finally(() => {
                 setIsLoading(false);
