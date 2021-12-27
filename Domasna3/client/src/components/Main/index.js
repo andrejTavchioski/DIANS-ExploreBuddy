@@ -35,6 +35,11 @@ const Main = () => {
         setMarkersData([...markersData, data]);
     };
 
+    const deleteUIMarker = ({ id }) => {
+        const filtered = markersData.filter((m) => m.id !== id);
+        setMarkersData(filtered);
+    };
+
     return (
         <Wrapper>
             <UtilsContext.Provider
@@ -43,6 +48,7 @@ const Main = () => {
                     setSelectedPlace,
                     getPlaceDesc,
                     markersData,
+                    deleteUIMarker,
                     isLoadingMarkersData,
                     updateUIMarker,
                     addUIMarker,

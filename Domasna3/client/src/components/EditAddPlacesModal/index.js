@@ -116,15 +116,18 @@ const EditAddPlacesModal = ({
                 </SelectPlace>
             </RowChildWrapper>
             <div style={{ marginTop: '10px' }} />
-            <RowChildWrapper>
-                <Button
-                    color='#8b0000 '
-                    id='onDelete'
-                    onClick={() => onDelete({ id: data?.id })}
-                >
-                    Delete
-                </Button>
-            </RowChildWrapper>
+            {functionality === 'edit' && (
+                <RowChildWrapper>
+                    <Button
+                        color='#8b0000 '
+                        id='onDelete'
+                        style={{ margin: 'auto' }}
+                        onClick={() => onDelete({ id: data?.id })}
+                    >
+                        Delete
+                    </Button>
+                </RowChildWrapper>
+            )}
             <RowChildWrapper>
                 <Button color='#E65356' onClick={onCancel}>
                     Cancel

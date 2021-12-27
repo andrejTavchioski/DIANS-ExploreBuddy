@@ -45,16 +45,16 @@ export const IconButton = styled.button`
 `;
 
 export const EditIcon = styled(EditI)`
-    width: 100%;
-    height: 100%;
+    width: 25px;
+    height: 25px;
 `;
 export const StarIcon = styled(StarI)`
-    width: 100%;
-    height: 100%;
+    width: 25px;
+    height: 25px;
 `;
 export const StarIconFilled = styled(StarIFilled)`
-    width: 100%;
-    height: 100%;
+    width: 25px;
+    height: 25px;
 `;
 
 export const DescTextWrapper = styled.div`
