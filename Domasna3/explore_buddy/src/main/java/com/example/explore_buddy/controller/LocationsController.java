@@ -76,4 +76,8 @@ public class LocationsController {
     public Location addLocation(@RequestBody Location location){
         return locationsService.post(location);
     }
+    @DeleteMapping()
+    public void deleteLocation(@RequestParam Integer id ){
+        locationsService.deleteLocationById(id);
+    }
 }

@@ -39,23 +39,6 @@ public class LocationsService implements ILocationsService {
         return locationsRepository.findAllByType(LocationType.valueOf(type));
     }
 
-//    @Override
-//    public List<Location> getFavourites() {
-//        return locationsRepository.findByFavourite(true);
-//    }
-
-//    @Override
-//    public void updateLocation(Integer id) {
-//        Location toupdate=locationsRepository.findById(id).orElse(null);
-//        if(toupdate!=null)
-//        {
-//            if(toupdate.getFavourite())
-//                toupdate.setFavourite(false);
-//            else
-//                toupdate.setFavourite(true);
-//            locationsRepository.save(toupdate);
-//        }
-//    }
 
     @Override
     public List<Location> getAllByNameSearch(String name) {
@@ -85,4 +68,10 @@ public class LocationsService implements ILocationsService {
         })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteLocationById(Integer id) {
+        locationsRepository.deleteById(id);
+    }
+
 }

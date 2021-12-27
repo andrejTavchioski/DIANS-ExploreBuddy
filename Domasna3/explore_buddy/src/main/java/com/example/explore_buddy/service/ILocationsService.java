@@ -17,4 +17,5 @@ public interface ILocationsService {
     List<Location> importFromCsv(MultipartFile file);
     Location getLocation(Integer id);
     List<DescriptionlessLocation> getAllLocationMarkers();
+    void deleteLocationById(Integer id);
 }
