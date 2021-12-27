@@ -19,6 +19,7 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailValidator emailValidator;
     private final EmailService emailService;
+
     @Autowired
     public RegistrationService(UserService userService, ConfirmationTokenService confirmationTokenService, EmailValidator emailValidator, EmailService emailService) {
         this.userService = userService;
@@ -28,12 +29,17 @@ public class RegistrationService {
     }
 
     public String register(RegistrationRequest request) {
+        if (request.getEmail() == null || request.getEmail().isEmpty())
+            throw new IllegalArgumentException("Missing email");
         boolean isValidEmail = emailValidator.
                 test(request.getEmail());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
+
+        if (request.getPassword() == null || request.getPassword().isEmpty())
+            throw new IllegalStateException("Missing password");
 
         String token = userService.signUpUser(
                 new AppUser(
@@ -43,7 +49,7 @@ public class RegistrationService {
         );
 
         String link = "http://localhost:8080/user/registration/confirm?token=" + token;
-        Mail mail=new Mail();
+        Mail mail = new Mail();
         mail.setMailTo(request.getEmail());
         mail.setMailFrom("noreply_explore_buddy@gmail.com");
         mail.setMailSubject("Account confirmation");
