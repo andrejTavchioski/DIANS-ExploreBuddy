@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import { UtilsContext } from '../context/UtilsContex';
-
+import { toast } from 'react-toastify';
 const useAddPlace = () => {
     const { setSelectedPlace, addUIMarker } = useContext(UtilsContext);
     const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +15,15 @@ const useAddPlace = () => {
                 setIsOpenPlaceModal(false);
             })
             .catch((err) => {
-                console.log(err);
+                toast.error('Invalid input!', {
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .finally(() => {
                 setIsLoading(false);

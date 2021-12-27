@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 // import jwt from 'jwt-decode';
 import { UserContext } from '../context/UserContext';
+import { toast } from 'react-toastify';
 
 const useSignIn = () => {
     const { setUser } = useContext(UserContext);
@@ -43,7 +44,15 @@ const useSignIn = () => {
                 setAuthModal({ isOpen: false });
             })
             .catch((err) => {
-                console.log(err);
+                toast.error('Invalid credentials!', {
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .finally(() => {
                 setIsLoading(false);
