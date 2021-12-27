@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class RegistrationService {
-    private UserService userService;
+    private final UserService userService;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailValidator emailValidator;
     private final EmailService emailService;
@@ -49,7 +49,6 @@ public class RegistrationService {
         mail.setMailSubject("Account confirmation");
         mail.setMailContent(buildEmail(request.getEmail(), link));
         emailService.sendEmail(mail);
-
         return token;
     }
 

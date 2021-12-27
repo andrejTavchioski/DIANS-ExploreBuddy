@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IUserService {
     AppUser findUserByEmail(String email);
-    List<Location> getFavourites(String email);
-    void changeFavourite();
+    List<Integer> getFavourites(String email);
+    void changeFavourite(Integer id,String email);
     String signUpUser(AppUser appUser);
 
     List<AppUser> findAll();

@@ -35,10 +35,18 @@ public class UserController {
         return registrationService.register(request);
     }
     @GetMapping("/registration/confirm")
-    public void confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
+    public String confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
         resp.sendRedirect("/home");
+        return registrationService.confirmToken(token);
     }
-
+    @GetMapping("/favourites")
+    public List<Integer> getFavourites(@RequestParam String email){
+        return userService.getFavourites(email);
+    }
+    @PutMapping("/setFavourite/{id}")
+    public void setFavourites(@RequestParam String email,@PathVariable Integer id){
+        userService.changeFavourite(id,email);
+    }
 
 
 
