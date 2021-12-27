@@ -1,6 +1,6 @@
 package com.example.explore_buddy.model;
 
-import com.example.explore_buddy.model.enumeration.UserType;
+import com.example.explore_buddy.model.enumeration.UserRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,11 +25,11 @@ public class AppUser implements UserDetails {
     private boolean locked;
     private boolean enabled;
     @Enumerated
-    private UserType userType;
+    private UserRole userRole;
     public AppUser(String email, String password){
         this.email=email;
         this.password=password;
-        this.userType=UserType.USER;
+        this.userRole = UserRole.ROLE_USER;
     }
 
     @Override

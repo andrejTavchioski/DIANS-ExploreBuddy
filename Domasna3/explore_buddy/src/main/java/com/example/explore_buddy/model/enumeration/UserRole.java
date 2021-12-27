@@ -1,6 +1,6 @@
 package com.example.explore_buddy.model.enumeration;
 
-public enum  UserType {
-    USER,
-    ADMIN
+public enum UserRole {
+    ROLE_USER,
+    ROLE_ADMIN
 }
