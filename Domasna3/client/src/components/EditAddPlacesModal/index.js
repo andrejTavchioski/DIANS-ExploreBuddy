@@ -14,7 +14,13 @@ import {
     Button,
 } from './styles';
 
-const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
+const EditAddPlacesModal = ({
+    functionality,
+    data,
+    onCancel,
+    onConfirm,
+    onDelete,
+}) => {
     const [editedData, setEditedData] = useState({
         name: data?.name ?? '',
         lat: data?.lat ?? '',
@@ -109,7 +115,17 @@ const EditAddPlacesModal = ({ functionality, data, onCancel, onConfirm }) => {
                         })}
                 </SelectPlace>
             </RowChildWrapper>
-            <RowChildWrapper style={{ marginTop: '30px' }}>
+            <div style={{ marginTop: '10px' }} />
+            <RowChildWrapper>
+                <Button
+                    color='#8b0000 '
+                    id='onDelete'
+                    onClick={() => onDelete({ id: data?.id })}
+                >
+                    Delete
+                </Button>
+            </RowChildWrapper>
+            <RowChildWrapper>
                 <Button color='#E65356' onClick={onCancel}>
                     Cancel
                 </Button>

@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const useGetFavouritePlaces = () => {
+    const { user } = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(false);
     const [favourite, setFavourite] = useState(null);
     const getFavouritePlaces = useCallback(() => {
@@ -11,8 +13,8 @@ const useGetFavouritePlaces = () => {
             .map((_, i) => Math.ceil(Math.random() * 500)); // TODO DELETE - MOCKING
         try {
             if (favourite) return favourite;
-            let data = axios.get(`https://jsonplaceholder.typicode.com/posts`);
-            data = fav; // delete ths=is or direct return on get
+            let data = axios.get(`/user/favourites?email=${user.email}`);
+            data = fav; // delete thsis or direct return on get
             setFavourite(data);
             return data;
         } catch (err) {

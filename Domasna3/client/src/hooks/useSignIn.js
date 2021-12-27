@@ -19,12 +19,14 @@ const useSignIn = () => {
                 // localStorage.setItem('token', JSON.stringify(token));
 
                 // JUST FOR MOCK
+
                 let user = null;
                 if (
                     credentials.email === 'user@gmail.com' &&
                     credentials.password === 'user'
                 ) {
                     user = {
+                        email: 'user@gmail.com',
                         role: 'ROLE_USER',
                     };
                 } else if (
@@ -32,6 +34,7 @@ const useSignIn = () => {
                     credentials.password === 'admin'
                 ) {
                     user = {
+                        email: 'admin@gmail.com',
                         role: 'ROLE_ADMIN',
                     };
                 }

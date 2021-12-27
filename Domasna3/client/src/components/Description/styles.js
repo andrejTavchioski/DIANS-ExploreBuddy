@@ -27,6 +27,9 @@ export const HeaderKey = styled.h3`
 export const PlaceName = styled.h3`
     margin-top: 0;
     margin-left: 10px;
+    width: 50%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `;
 
 export const IconButton = styled.button`
