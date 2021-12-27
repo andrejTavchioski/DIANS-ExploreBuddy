@@ -25,8 +25,7 @@ public class UserService implements IUserService {
     private final ConfirmationTokenService tokenService;
     private final PasswordEncoder encoder;
     private final EmailValidator emailValidator;
-
-    public UserService(IUserRepository userRepository, ILocationsRepository locationsRepository, ConfirmationTokenService tokenService, PasswordEncoder encoder, EmailValidator emailValidator) {
+    public UserService(IUserRepository userRepository, ILocationsRepository locationsRepository, ConfirmationTokenService tokenService, PasswordEncoder encoder, EmailValidator emailValidator){
         this.userRepository = userRepository;
         this.locationsRepository = locationsRepository;
         this.tokenService = tokenService;
@@ -36,6 +35,7 @@ public class UserService implements IUserService {
 
     @Override
     public AppUser findUserByEmail(String email) {
+
         if (email == null || email.isEmpty())
             throw new IllegalArgumentException("Empty email");
         if (!emailValidator.test(email))

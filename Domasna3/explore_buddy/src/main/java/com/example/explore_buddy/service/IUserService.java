@@ -10,6 +10,5 @@ public interface IUserService {
     List<Integer> getFavourites(String email);
     void changeFavourite(Integer id,String email);
     String signUpUser(AppUser appUser);
-
     List<AppUser> findAll();
 }
