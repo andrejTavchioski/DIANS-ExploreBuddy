@@ -54,14 +54,20 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void changeFavourite(Integer id, String email) {
+    public boolean changeFavourite(Integer id, String email) {
         if (email == null || email.isEmpty())
             throw new IllegalArgumentException("Empty email");
         if (!emailValidator.test(email))
             throw new IllegalArgumentException("Invalid email");
         Location location = locationsRepository.getById(id);
         AppUser user = userRepository.findUserByEmail(email);
-        user.getFavouriteLocations().add(location);
+        if (user.getFavouriteLocations().contains(location)) {
+            user.getFavouriteLocations().remove(location);
+            return false;
+        } else {
+            user.getFavouriteLocations().add(location);
+            return true;
+        }
     }
 
     public String signUpUser(AppUser appUser) {

@@ -76,8 +76,12 @@ public class LocationsController {
     public Location addLocation(@RequestBody Location location){
         return locationsService.post(location);
     }
-    @DeleteMapping()
-    public void deleteLocation(@RequestParam Integer id ){
+    @DeleteMapping("/{id}")
+    public void deleteLocation(@PathVariable Integer id ){
         locationsService.deleteLocationById(id);
+    }
+    @PutMapping("/update")
+    public Location updateLocation(@RequestBody Location location){
+        return locationsService.updateLocation(location);
     }
 }

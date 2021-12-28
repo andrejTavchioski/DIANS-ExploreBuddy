@@ -8,7 +8,7 @@ const useDeletePlace = () => {
     const deletePlace = async ({ id, setIsModalOpen }) => {
         setIsLoading(true);
         await axios
-            .delete(`/${id}`)
+            .delete(`/home/${id}`)
             .then((res) => {
                 deleteUIMarker({ id });
                 setSelectedPlace(null);

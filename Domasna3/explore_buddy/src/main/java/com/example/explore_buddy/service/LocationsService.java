@@ -58,7 +58,7 @@ public class LocationsService implements ILocationsService {
     }
 
     @Override
-    public void updateLocation(Location location) {
+    public Location updateLocation(Location location) {
         if (location.getId() == null)
             throw new IllegalArgumentException("Missing id");
         if (location.getName() == null || location.getName().isEmpty())
@@ -73,7 +73,7 @@ public class LocationsService implements ILocationsService {
             throw new IllegalArgumentException("Invalid latitude");
         if (location.getType() == null)
             throw new IllegalArgumentException("Missing type");
-        locationsRepository.save(location);
+        return locationsRepository.save(location);
     }
 
 

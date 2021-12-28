@@ -8,7 +8,7 @@ const useAddPlace = () => {
     const addPlace = async ({ data, setIsOpenPlaceModal }) => {
         setIsLoading(true);
         await axios
-            .post(`/add`, data)
+            .post(`/home/add`, data)
             .then((res) => {
                 addUIMarker({ data: res.data });
                 setSelectedPlace(res.data);

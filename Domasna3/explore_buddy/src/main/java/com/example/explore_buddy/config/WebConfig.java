@@ -36,11 +36,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/home","/home/importCsv**",
-                        "/user/registration**","/user/registration/confirm**","/user/admin/registration**",
-                        "/user/login**")
+                .antMatchers("/**")
                 .permitAll()
-                .antMatchers("/home/search**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
 //                .and()

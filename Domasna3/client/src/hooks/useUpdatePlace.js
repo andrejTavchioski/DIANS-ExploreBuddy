@@ -8,11 +8,12 @@ const useUpdatePlace = () => {
     const [isLoading, setIsLoading] = useState(false);
     const updatePlace = async ({ data, id, setIsModalOpen }) => {
         setIsLoading(true);
+        console.log(data)
         await axios
-            .put(`https://jsonplaceholder.typicode.com/posts/1`, data)
+            .put(`/home/update`, { ...data, id })
             .then((res) => {
-                setSelectedPlace({ ...data, id }); // TODO => res.data
-                updateUIMarker({ id, type: data.type, name: data.name }); // TODO => res.data.type, res.data.name
+                setSelectedPlace(res.data); // TODO => res.data
+                updateUIMarker({ id, type: res.data.type, name: res.data.name }); // TODO => res.data.type, res.data.name
                 setIsModalOpen(false);
             })
             .catch((err) => {

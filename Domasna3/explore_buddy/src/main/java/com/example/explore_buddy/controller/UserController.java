@@ -44,7 +44,6 @@ public class UserController {
 
     @GetMapping("/registration/confirm")
     public String confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
-        resp.sendRedirect("/home");
         return registrationService.confirmToken(token);
 
     }
@@ -63,8 +62,8 @@ public class UserController {
     }
 
     @PutMapping("/setFavourite/{id}")
-    public void setFavourites(@RequestParam String email, @PathVariable Integer id) {
-        userService.changeFavourite(id, email);
+    public boolean setFavourites(@RequestParam String email, @PathVariable Integer id) {
+        return userService.changeFavourite(id, email);
     }
 
 

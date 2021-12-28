@@ -11,7 +11,7 @@ const useGetPlaceDesc = ({ selectedPlace, setSelectedPlace }) => {
         }
         setIsLoading(true);
         await axios
-            .get(`/getLocation?id=${id}`)
+            .get(`/home/getLocation?id=${id}`)
             .then(({ data }) => {
                 setSelectedPlace({
                     ...data,

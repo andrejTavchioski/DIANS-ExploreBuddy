@@ -6,7 +6,7 @@ const useGetMarkersData = () => {
     const [markersData, setMarkersData] = useState(null);
     const getMarkersData = async () => {
         await axios
-            .get(`/markers`)
+            .get(`/home/markers`)
             .then(({ data }) => {
                 setMarkersData(data);
             })

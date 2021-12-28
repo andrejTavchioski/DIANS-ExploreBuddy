@@ -15,9 +15,11 @@ const useToggleFavouritePlace = () => {
             .put(`/user/setFavourite/${id}?email=${user.email}`)
             .then((res) => {
                 // TODO DELETE MOCKING
-                let inc = fav.includes(id);
-                fav.push(id);
-                updateUIMarker({ id, isFavourite: !inc }); // res.data.isFavourite
+                // let inc = fav.includes(id);
+                // fav.push(id);
+                console.log(res.data);
+                console.log(id, user.email)
+                updateUIMarker({ id, isFavourite: res.data }); // res.data.isFavourite
             })
             .catch((err) => {
                 console.log(err);

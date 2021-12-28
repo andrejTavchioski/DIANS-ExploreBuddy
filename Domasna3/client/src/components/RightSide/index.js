@@ -82,7 +82,7 @@ const RightSide = ({ searchValue }) => {
         (event) => {
             if (!markersData) return;
             const newSelectedValue = event?.target?.value;
-            let _selectedValues = selectedValues;
+            let _selectedValues = [...selectedValues];
             // SELECTED VALUES
             if (newSelectedValue) {
                 if (selectedValues.includes(newSelectedValue)) {
@@ -96,7 +96,9 @@ const RightSide = ({ searchValue }) => {
                 setSelectedValues([..._selectedValues]);
             }
 
-            let favourite;
+            let favourite = [];
+            console.log(user && user.email)
+            console.log(_selectedValues)
             if (_selectedValues.includes(placesType.FAVOURITE)) {
                 favourite = getFavouritePlaces();
             }
@@ -105,30 +107,30 @@ const RightSide = ({ searchValue }) => {
                 _selectedValues.length === 0
                     ? markersData
                     : _selectedValues.includes(placesType.FAVOURITE)
-                    ? markersData.filter((m) => {
-                          if (
-                              _selectedValues.length === 1 &&
-                              favourite.includes(m.id)
-                          ) {
-                              return true;
-                          }
-                          return (
-                              _selectedValues.includes(m.type) &&
-                              favourite.includes(m.id)
-                          );
-                      })
-                    : markersData.filter((m) =>
-                          _selectedValues.includes(m.type)
-                      );
+                        ? markersData.filter((m) => {
+                            if (
+                                _selectedValues.length === 1 &&
+                                favourite.includes(m.id)
+                            ) {
+                                return true;
+                            }
+                            return (
+                                _selectedValues.includes(m.type) &&
+                                favourite.includes(m.id)
+                            );
+                        })
+                        : markersData.filter((m) =>
+                            _selectedValues.includes(m.type)
+                        );
             // FILTER BY NAME
             let _filteredMarkersByName =
                 searchValue.trim() === ''
                     ? markersData.map((m) => m.name.toLowerCase())
                     : markersData
-                          .map((m) => m.name.toLowerCase())
-                          .filter((name) =>
-                              name.includes(searchValue.trim().toLowerCase())
-                          );
+                        .map((m) => m.name.toLowerCase())
+                        .filter((name) =>
+                            name.includes(searchValue.trim().toLowerCase())
+                        );
 
             // FILTER BY TYPE AND NAME
             let _filteredMarkersByTypeAndName = _filteredMarkersByType.filter(

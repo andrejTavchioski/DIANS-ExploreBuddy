@@ -23,11 +23,11 @@ const useSignIn = () => {
 
                 let user = null;
                 if (
-                    credentials.email === 'user@gmail.com' &&
-                    credentials.password === 'user'
+                    credentials.email === 'andrej_sk_@hotmail.com' &&
+                    credentials.password === 'tavco'
                 ) {
                     user = {
-                        email: 'user@gmail.com',
+                        email: 'andrej_sk_@hotmail.com',
                         role: 'ROLE_USER',
                     };
                 } else if (
@@ -35,8 +35,16 @@ const useSignIn = () => {
                     credentials.password === 'admin'
                 ) {
                     user = {
-                        email: 'admin@gmail.com',
+                        email: 'viktor-tasevski@hotmail.com',
                         role: 'ROLE_ADMIN',
+                    };
+                } else if (
+                    credentials.email === 'andrej.tavchioski@gmail.com' &&
+                    credentials.password === 'tavco'
+                ) {
+                    user = {
+                        email: 'andrej.tavchioski@hotmail.com',
+                        role: 'ROLE_USER',
                     };
                 }
                 if (!user) throw Error('Email or password incorrect!');
