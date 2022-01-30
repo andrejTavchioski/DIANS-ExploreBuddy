@@ -43,7 +43,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/user/register/**", "/home/markers","/home/getLocation/**","/home/search","/api/login/**","/home").permitAll();
+        http.authorizeRequests().antMatchers("/user/registration/**", "/home/markers","/home/getLocation/**","/home/search","/api/login/**","/home").permitAll();
         http.authorizeRequests().antMatchers( "/user/setFavourite/**","user/favourites").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers( "/home/importCsv").hasAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
