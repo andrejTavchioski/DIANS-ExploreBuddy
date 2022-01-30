@@ -1,5 +1,6 @@
 package com.example.explore_buddy.config;
 
+import com.example.explore_buddy.model.enumeration.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,17 +37,24 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**")
-                .permitAll()
+                .antMatchers("/","/user/**").permitAll()
+                .antMatchers("/home").hasAuthority(UserRole.ROLE_USER.name())
+                .antMatchers("/home/importCsv").hasAuthority(UserRole.ROLE_ADMIN.name())
                 .anyRequest()
                 .authenticated()
-//                .and()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/home")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/home")
+                .and()
 //                .formLogin()
 //                .loginPage("/login")
 //                .permitAll()
 //                .failureUrl("/login?error=bad credentials")
 //                .defaultSuccessUrl("/home")
-                .and()
+                //.and()
                 .exceptionHandling().accessDeniedPage("/acess_denied");
 
     }

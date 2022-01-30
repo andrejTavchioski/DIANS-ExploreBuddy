@@ -51,10 +51,10 @@ public class UserController {
     public String registerAdmin(@RequestBody RegistrationRequest request){
         return registrationService.register(request);
     }
-    @PostMapping("/login")
-    public AppUser loginUser(@RequestBody LoginRequest request){
-        return loginService.login(request);
-    }
+//    @PostMapping("/login")
+//    public AppUser loginUser(@RequestBody LoginRequest request){
+//        return loginService.login(request);
+//    }
 
     @GetMapping("/favourites")
     public List<Integer> getFavourites(@RequestParam String email) {
