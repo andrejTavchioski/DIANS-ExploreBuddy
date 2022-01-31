@@ -11,9 +11,7 @@ import java.util.*;
 @Repository
 public interface ILocationsRepository extends JpaRepository<Location,Integer> {
     List<Location> findByName(String name);
-    List<Location> findAllByType(LocationType locationType);
-    Streamable<Location> findByNameContaining(String name);
-    List<Location> findByNameContains(String name);
-    List<Location> findLocationsByNameContaining(String query);
-    List<Location> findLocationsByTypeAndNameContaining(LocationType locationType,String query);
+    List<Location> findLocationsByTypeIsIn(List<LocationType> locationType);
+    List<Location> findLocationsByNameContainingIgnoreCase(String query);
+    List<Location> findLocationsByTypeIsInAndNameContainingIgnoreCase(List<LocationType> locationType,String query);
 }

@@ -2,6 +2,8 @@ package com.example.explore_buddy.service;
 
 import com.example.explore_buddy.model.DescriptionlessLocation;
 import com.example.explore_buddy.model.Location;
+import com.example.explore_buddy.model.LocationFullInfo;
+import com.example.explore_buddy.model.enumeration.LocationType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -9,14 +11,11 @@ import java.util.List;
 public interface ILocationsService {
     List<Location> getAll();
     Location post(Location location);
-    List<Location> getByName(String name);
-    List<Location> getAllByType(String type);
-//    List<Location> getFavourites();
     Location updateLocation(Location location);
-//    List<Location> getAllByNameSearch(String name);
     List<Location> importFromCsv(MultipartFile file);
-    Location getLocation(Integer id);
-    List<DescriptionlessLocation> getMarkers(String query,String locationType,boolean isFavourite);
+    LocationFullInfo getLocation(Integer id);
+    List<DescriptionlessLocation> getMarkers(String query,String[] locationTypes,boolean isFavourite);
     void deleteLocationById(Integer id);
     List<DescriptionlessLocation> convertToDescriptionless(List<Location> locations);
+    List<LocationType> convertToTypeFromString(String[] locationTypes);
 }

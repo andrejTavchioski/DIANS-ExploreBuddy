@@ -4,6 +4,7 @@ import com.example.explore_buddy.helpers.CSVHelper;
 import com.example.explore_buddy.model.AppUser;
 import com.example.explore_buddy.model.DescriptionlessLocation;
 import com.example.explore_buddy.model.Location;
+import com.example.explore_buddy.model.LocationFullInfo;
 import com.example.explore_buddy.model.enumeration.LocationType;
 import com.example.explore_buddy.repository.ILocationsRepository;
 import com.example.explore_buddy.repository.IUserRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,21 +55,6 @@ public class LocationsService implements ILocationsService {
             throw new IllegalArgumentException("Missing type");
         return locationsRepository.save(location);
     }
-
-    @Override
-    public List<Location> getByName(String name) {
-        if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("Missing name");
-        return locationsRepository.findByName(name);
-    }
-
-    @Override
-    public List<Location> getAllByType(String type) {
-        if (type == null || type.isEmpty())
-            throw new IllegalArgumentException("Missing type");
-        return locationsRepository.findAllByType(LocationType.valueOf(type));
-    }
-
     @Override
     public Location updateLocation(Location location) {
         if (location.getId() == null)
@@ -87,14 +74,6 @@ public class LocationsService implements ILocationsService {
         return locationsRepository.save(location);
     }
 
-
-//    @Override
-//    public List<Location> getAllByNameSearch(String name) {
-//        if (name == null || name.isEmpty())
-//            throw new IllegalArgumentException("Missing name");
-//        return locationsRepository.findByNameContains(name);
-//    }
-
     public List<Location> importFromCsv(MultipartFile file) {
         try {
             String name = file.getOriginalFilename().substring(0, file.getOriginalFilename().length() - 4);
@@ -107,26 +86,37 @@ public class LocationsService implements ILocationsService {
     }
 
     @Override
-    public Location getLocation(Integer id) {
+    public LocationFullInfo getLocation(Integer id) {
         if (id == null)
             throw new IllegalArgumentException("Missing id");
-        return locationsRepository.findById(id).orElse(null);
+        String token=getToken();
+        Location location=locationsRepository.getById(id);
+        if(token!=null){
+            if(userRepository.findUserByEmail(token).getFavouriteLocations().contains(location)){
+                return new LocationFullInfo(location,true);
+            }
+        }
+        return new LocationFullInfo(location,false);
+
     }
 
+
     @Override
-    public List<DescriptionlessLocation> getMarkers(String query, String locationType,boolean isFavourite) {
+    public List<DescriptionlessLocation> getMarkers(String query, String[] types,boolean isFavourite) {
         List<Location> locationsToReturn;
-        if(query==null && locationType==null){
+        if(query==null && types==null){
             locationsToReturn=locationsRepository.findAll();
         }
         else if(query==null){
-            locationsToReturn=locationsRepository.findAllByType(LocationType.valueOf(locationType));
+            List<LocationType> locationTypes=convertToTypeFromString(types);
+            locationsToReturn=locationsRepository.findLocationsByTypeIsIn(locationTypes);
         }
-        else if(locationType==null){
-            locationsToReturn=locationsRepository.findLocationsByNameContaining(query);
+        else if(types==null){
+            locationsToReturn=locationsRepository.findLocationsByNameContainingIgnoreCase(query);
         }
         else{
-            locationsToReturn=locationsRepository.findLocationsByTypeAndNameContaining(LocationType.valueOf(locationType),query);
+            List<LocationType> locationTypes=convertToTypeFromString(types);
+            locationsToReturn=locationsRepository.findLocationsByTypeIsInAndNameContainingIgnoreCase(locationTypes,query);
         }
         if(isFavourite){
             String token = getToken();
@@ -152,6 +142,11 @@ public class LocationsService implements ILocationsService {
                     return new DescriptionlessLocation(location.getId(), location.getName(), location.getLon(), location.getLat(), location.getType());
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LocationType> convertToTypeFromString(String[] locationTypes) {
+        return Arrays.stream(locationTypes).map(LocationType::valueOf).collect(Collectors.toList());
     }
 
 }

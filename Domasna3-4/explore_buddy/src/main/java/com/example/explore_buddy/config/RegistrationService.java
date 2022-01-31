@@ -64,7 +64,7 @@ public class RegistrationService {
             throw new IllegalStateException("Missing password");
 
    
-        String link = "http://localhost:8080/user/registration/confirm?token=" + token;
+        String link = "https://explore-buddy-backend.herokuapp.com/user/registration/confirm?token=" + token;
         Mail mail = new Mail();
         mail.setMailTo(request.getEmail());
         mail.setMailFrom("noreply_explore_buddy@gmail.com");

@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/registration/confirm")
-    public String confirm(@RequestParam("token") String token, HttpServletResponse resp) throws IOException {
+    public String confirm(@RequestParam("token") String token){
         return registrationService.confirmToken(token);
 
     }
