@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/home")
 public class LocationsController {
     private final ILocationsService locationsService;
@@ -61,11 +62,11 @@ public class LocationsController {
     public Location addLocation(@RequestBody Location location){
         return locationsService.post(location);
     }
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public void deleteLocation(@PathVariable Integer id ){
         locationsService.deleteLocationById(id);
     }
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Location updateLocation(@RequestBody Location location){
         return locationsService.updateLocation(location);
     }

@@ -67,7 +67,7 @@ public class UserController {
         return userService.getFavourites(email);
     }
 
-    @PutMapping("/setFavourite/{id}")
+    @PostMapping("/setFavourite/{id}")
     public boolean setFavourites(@RequestParam String email, @PathVariable Integer id) {
         return userService.changeFavourite(id, email);
     }
