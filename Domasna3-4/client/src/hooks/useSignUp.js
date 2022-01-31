@@ -9,7 +9,10 @@ const useSignUp = () => {
     const signUp = async ({ credentials, setAuthModal }) => {
         setIsLoading(true);
         await axios
-            .post(`/user/registration`, {...credentials, role: 0})
+            .post(
+                `https://explore-buddy-backend.herokuapp.com/user/registration`,
+                { ...credentials, role: 0 }
+            )
             .then((res) => {
                 setAuthModal({ isOpen: false });
                 toast.success('Successfull Registration!', {

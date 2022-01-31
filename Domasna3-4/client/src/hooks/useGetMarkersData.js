@@ -21,7 +21,9 @@ const useGetMarkersData = () => {
             queryString += `isFavourite=${isFavourite}`;
         }
         await axios
-            .get(`/home/markers${queryString}`)
+            .get(
+                `https://explore-buddy-backend.herokuapp.com/home/markers${queryString}`
+            )
             .then(({ data }) => {
                 setMarkersData(data);
             })

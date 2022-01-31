@@ -7,11 +7,11 @@ import axios from "axios";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.put['Content-Type'] = 'application/json';
+axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.patch['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
-axios.defaults.timeout = 10000;
-axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <React.StrictMode>

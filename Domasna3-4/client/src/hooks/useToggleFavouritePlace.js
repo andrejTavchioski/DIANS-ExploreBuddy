@@ -11,7 +11,9 @@ const useToggleFavouritePlace = () => {
     const toggleFavouritePlace = async ({ id }) => {
         setIsLoading(true);
         await axios
-            .put(`/user/setFavourite/${id}?email=${user.email}`)
+            .post(
+                `https://explore-buddy-backend.herokuapp.com/user/setFavourite/${id}?email=${user.email}`
+            )
             .then((res) => {
                 updateUIMarker({ id, favourite: res.data });
             })

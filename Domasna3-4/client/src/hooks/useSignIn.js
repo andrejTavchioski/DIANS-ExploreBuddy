@@ -16,12 +16,17 @@ const useSignIn = () => {
         formData.append("username",credentials.email);
         formData.append("password",credentials.password);
         await axios
-            .post(`/api/login`, formData)
+            .post(
+                `https://explore-buddy-backend.herokuapp.com/api/login`,
+                formData
+            )
             .then((res) => {
                 // TODO DECODE JWT AND SET USER
                 const token = res.data.access_token;
                 const user = getTokenData(token);
-                axios.defaults.headers.common['Authorization']= `Bearer ${token}`;
+                axios.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${token}`;
                 setLocalStorage('token', token);
                 setUser(normalizeUser(user));
                 setAuthModal({ isOpen: false });

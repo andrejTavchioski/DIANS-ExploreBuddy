@@ -76,7 +76,7 @@ const GoogleMaps = ({ data = []}) => {
                 }
                 yesIWantToUseGoogleMapApiInternals={true}
             >
-                {data && data.map((d, ind) => (
+                {data && Array.isArray(data) && data.map((d, ind) => (
                     <ChoosenMarker
                         key={ind}
                         type={d.type}

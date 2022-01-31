@@ -11,6 +11,7 @@ const useSignOut = () => {
         localStorage.removeItem('token');
         setSelectedPlace(null);
         setUser(null);
+        window.location.reload();
     };
 
     return {
