@@ -20,7 +20,7 @@ const Description = ({ onEditClick }) => {
     const { user } = useContext(UserContext);
     const { toggleFavouritePlace } = useToggleFavouritePlace();
     const {
-        selectedPlace: { id, description, name, isFavourite },
+        selectedPlace: { id, description, name, favourite },
     } = useContext(UtilsContext);
     return (
         <Wrapper>
@@ -33,7 +33,7 @@ const Description = ({ onEditClick }) => {
                     </IconButton>
                 ) : user && user.role === roles.USER ? (
                     <IconButton onClick={() => toggleFavouritePlace({ id })}>
-                        {isFavourite ? <StarIconFilled /> : <StarIcon />}
+                        {favourite ? <StarIconFilled /> : <StarIcon />}
                     </IconButton>
                 ) : null}
             </HeaderWrapper>

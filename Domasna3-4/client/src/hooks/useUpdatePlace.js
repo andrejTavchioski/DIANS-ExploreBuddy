@@ -8,11 +8,10 @@ const useUpdatePlace = () => {
     const [isLoading, setIsLoading] = useState(false);
     const updatePlace = async ({ data, id, setIsModalOpen }) => {
         setIsLoading(true);
-        console.log(data)
         await axios
             .put(`/home/update`, { ...data, id })
             .then((res) => {
-                setSelectedPlace(res.data); // TODO => res.data
+                setSelectedPlace(res.data);
                 updateUIMarker({ id, type: res.data.type, name: res.data.name }); // TODO => res.data.type, res.data.name
                 setIsModalOpen(false);
             })

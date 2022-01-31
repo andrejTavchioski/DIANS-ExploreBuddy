@@ -13,10 +13,7 @@ const useGetPlaceDesc = ({ selectedPlace, setSelectedPlace }) => {
         await axios
             .get(`/home/getLocation?id=${id}`)
             .then(({ data }) => {
-                setSelectedPlace({
-                    ...data,
-                    isFavourite: data.id <= 250, // TODO DELETE MOCKING
-                });
+                setSelectedPlace(data);
             })
             .catch((err) => {
                 console.log(err);

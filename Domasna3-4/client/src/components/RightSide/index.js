@@ -13,9 +13,10 @@ import {
     AddButton,
     AddIcon,
 } from './styles';
+import { Circles } from 'react-loader-spinner';
 
 import { roles, placesType } from '../../config/enums';
-import Modal from '../../Modal';
+import Modal from '../Modal';
 import EditAddPlacesModal from '../EditAddPlacesModal';
 import AuthModal from '../AuthModal';
 import useAddPlace from '../../hooks/useAddPlace';
@@ -23,7 +24,6 @@ import { UtilsContext } from '../../context/UtilsContex';
 import useSignIn from '../../hooks/useSignIn';
 import useSignOut from '../../hooks/useSignOut';
 import useSignUp from '../../hooks/useSignUp';
-import useGetFavouritePlaces from '../../hooks/useGetFavouritePlaces';
 
 const selectButtons = [
     {
@@ -56,14 +56,13 @@ const selectButtons = [
     },
 ];
 
-const RightSide = ({ searchValue }) => {
+const RightSide = ({ searchValue, getMarkersData }) => {
     const { user } = useContext(UserContext);
     const { markersData, isLoadingMarkersData } = useContext(UtilsContext);
     const { addPlace } = useAddPlace();
     const { signIn } = useSignIn();
     const { signOut } = useSignOut();
     const { signUp } = useSignUp();
-    const { getFavouritePlaces } = useGetFavouritePlaces();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
     const [authModal, setAuthModal] = useState({
@@ -80,7 +79,7 @@ const RightSide = ({ searchValue }) => {
 
     const handleMarkersFiltering = useCallback(
         (event) => {
-            if (!markersData) return;
+            if (event === undefined) return;
             const newSelectedValue = event?.target?.value;
             let _selectedValues = [...selectedValues];
             // SELECTED VALUES
@@ -93,58 +92,23 @@ const RightSide = ({ searchValue }) => {
                 } else {
                     _selectedValues = [...selectedValues, newSelectedValue];
                 }
-                setSelectedValues([..._selectedValues]);
             }
+            setSelectedValues([..._selectedValues]);
 
-            let favourite = [];
-            console.log(user && user.email)
-            console.log(_selectedValues)
-            if (_selectedValues.includes(placesType.FAVOURITE)) {
-                favourite = getFavouritePlaces();
-            }
-            // FILTER BY TYPE
-            let _filteredMarkersByType =
-                _selectedValues.length === 0
-                    ? markersData
-                    : _selectedValues.includes(placesType.FAVOURITE)
-                        ? markersData.filter((m) => {
-                            if (
-                                _selectedValues.length === 1 &&
-                                favourite.includes(m.id)
-                            ) {
-                                return true;
-                            }
-                            return (
-                                _selectedValues.includes(m.type) &&
-                                favourite.includes(m.id)
-                            );
-                        })
-                        : markersData.filter((m) =>
-                            _selectedValues.includes(m.type)
-                        );
-            // FILTER BY NAME
-            let _filteredMarkersByName =
-                searchValue.trim() === ''
-                    ? markersData.map((m) => m.name.toLowerCase())
-                    : markersData
-                        .map((m) => m.name.toLowerCase())
-                        .filter((name) =>
-                            name.includes(searchValue.trim().toLowerCase())
-                        );
+            const isFavourite = _selectedValues.includes(placesType.FAVOURITE);
 
-            // FILTER BY TYPE AND NAME
-            let _filteredMarkersByTypeAndName = _filteredMarkersByType.filter(
-                (m) => _filteredMarkersByName.includes(m.name.toLowerCase())
+            getMarkersData(
+                _selectedValues.filter((f) => f !== placesType.FAVOURITE),
+                searchValue,
+                isFavourite
             );
-
-            setFilteredMarkers(_filteredMarkersByTypeAndName);
         },
-        [markersData, selectedValues, searchValue, getFavouritePlaces]
+        [markersData, selectedValues, searchValue]
     );
 
     useEffect(() => {
-        handleMarkersFiltering();
-    }, [searchValue, handleMarkersFiltering]);
+        handleMarkersFiltering(null);
+    }, [searchValue]);
 
     const onCancel = () => {
         setIsOpenPlaceModal(false);
@@ -159,111 +123,121 @@ const RightSide = ({ searchValue }) => {
     const onSignUpConfirm = ({ credentials }) => {
         signUp({ credentials, setAuthModal });
     };
-    return (
-        !isLoadingMarkersData && (
-            <>
-                <Modal isOpen={isOpenPlaceModal}>
-                    <EditAddPlacesModal
-                        functionality='add'
-                        onCancel={onCancel}
-                        onConfirm={onAddConfirm}
-                    />
-                </Modal>
-                <Modal isOpen={authModal.isOpen}>
-                    <AuthModal
-                        functionality={authModal.functionality}
-                        onCancel={onCancel}
-                        onConfirm={authModal.onConfirm}
-                    />
-                </Modal>
-                <Wrapper>
-                    <GoogleMaps data={filteredMarkers} />
-                    {!user ? (
-                        <AuthButtonsWrapper>
-                            <AuthButton
-                                color='#329f76'
-                                onClick={() =>
-                                    setAuthModal({
-                                        isOpen: true,
-                                        functionality: 'signIn',
-                                        onConfirm: onSignInConfirm,
-                                    })
-                                }
-                            >
-                                Sign in
-                            </AuthButton>
-                            <AuthButton
-                                color='#fdf07a'
-                                onClick={() => {
-                                    setAuthModal({
-                                        isOpen: true,
-                                        functionality: 'signUp',
-                                        onConfirm: onSignUpConfirm,
-                                    });
-                                }}
-                            >
-                                Sign up
-                            </AuthButton>
-                        </AuthButtonsWrapper>
-                    ) : (
+    return isLoadingMarkersData ? (
+        <Circles
+            wrapperStyle={{
+                position: 'absolute',
+                top: 70,
+                left: 'calc(62.5% - 35px)',
+                zIndex: '15',
+            }}
+            heigth='70'
+            width='70'
+            color='grey'
+        />
+    ) : (
+        <>
+            <Modal isOpen={isOpenPlaceModal}>
+                <EditAddPlacesModal
+                    functionality='add'
+                    onCancel={onCancel}
+                    onConfirm={onAddConfirm}
+                />
+            </Modal>
+            <Modal isOpen={authModal.isOpen}>
+                <AuthModal
+                    functionality={authModal.functionality}
+                    onCancel={onCancel}
+                    onConfirm={authModal.onConfirm}
+                />
+            </Modal>
+            <Wrapper>
+                <GoogleMaps data={filteredMarkers} />
+                {!user ? (
+                    <AuthButtonsWrapper>
                         <AuthButton
-                            color='#E65356'
-                            style={{
-                                position: 'absolute',
-                                top: '15px',
-                                right: '30px',
-                            }}
-                            onClick={() => signOut()}
+                            color='#329f76'
+                            onClick={() =>
+                                setAuthModal({
+                                    isOpen: true,
+                                    functionality: 'signIn',
+                                    onConfirm: onSignInConfirm,
+                                })
+                            }
                         >
-                            Sign out
+                            Sign in
                         </AuthButton>
-                    )}
-                    {user && user.role === roles.ADMIN ? (
-                        <AddButton onClick={() => setIsOpenPlaceModal(true)}>
-                            <AddIcon />
-                        </AddButton>
-                    ) : null}
-                    {isMenuOpen ? (
-                        <SelectButtonsWrapper>
-                            {selectButtons.map((b, ind) => {
-                                if (b.value === placesType.FAVOURITE) {
-                                    if (user && user.role === roles.USER) {
-                                        return (
-                                            <SelectButton
-                                                value={b.value}
-                                                isSelected={selectedValues.includes(
-                                                    b.value
-                                                )}
-                                                key={ind}
-                                                onClick={handleMarkersFiltering}
-                                            >
-                                                {b.text}
-                                            </SelectButton>
-                                        );
-                                    }
-                                    return null;
+                        <AuthButton
+                            color='#fdf07a'
+                            onClick={() => {
+                                setAuthModal({
+                                    isOpen: true,
+                                    functionality: 'signUp',
+                                    onConfirm: onSignUpConfirm,
+                                });
+                            }}
+                        >
+                            Sign up
+                        </AuthButton>
+                    </AuthButtonsWrapper>
+                ) : (
+                    <AuthButton
+                        color='#E65356'
+                        style={{
+                            position: 'absolute',
+                            top: '15px',
+                            right: '30px',
+                        }}
+                        onClick={() => signOut()}
+                    >
+                        Sign out
+                    </AuthButton>
+                )}
+                {user && user.role === roles.ADMIN ? (
+                    <AddButton onClick={() => setIsOpenPlaceModal(true)}>
+                        <AddIcon />
+                    </AddButton>
+                ) : null}
+                {isMenuOpen ? (
+                    <SelectButtonsWrapper>
+                        {selectButtons.map((b, ind) => {
+                            if (b.value === placesType.FAVOURITE) {
+                                if (user && user.role === roles.USER) {
+                                    return (
+                                        <SelectButton
+                                            value={b.value}
+                                            isSelected={selectedValues.includes(
+                                                b.value
+                                            )}
+                                            key={ind}
+                                            onClick={handleMarkersFiltering}
+                                        >
+                                            {b.text}
+                                        </SelectButton>
+                                    );
                                 }
-                                return (
-                                    <SelectButton
-                                        value={b.value}
-                                        isSelected={selectedValues.includes(
-                                            b.value
-                                        )}
-                                        key={ind}
-                                        onClick={handleMarkersFiltering}
-                                    >
-                                        {b.text}
-                                    </SelectButton>
-                                );
-                            })}
-                        </SelectButtonsWrapper>
-                    ) : null}
-                    <BurgerButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
-                    </BurgerButton>
-                </Wrapper>
-            </>
-        )
+                                return null;
+                            }
+                            return (
+                                <SelectButton
+                                    value={b.value}
+                                    isSelected={selectedValues.includes(
+                                        b.value
+                                    )}
+                                    key={ind}
+                                    onClick={handleMarkersFiltering}
+                                >
+                                    {b.text}
+                                </SelectButton>
+                            );
+                        })}
+                    </SelectButtonsWrapper>
+                ) : null}
+                <BurgerButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
+                </BurgerButton>
+            </Wrapper>
+        </>
     );
 };
 

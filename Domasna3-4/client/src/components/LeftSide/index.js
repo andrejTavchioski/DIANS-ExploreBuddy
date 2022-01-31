@@ -19,7 +19,7 @@ import lodgeBg from '../../resources/lodgeBg.jfif';
 import waterfallBg from '../../resources/waterfallBg.jfif';
 
 import { placesType } from '../../config/enums';
-import Modal from '../../Modal';
+import Modal from '../Modal';
 import EditAddPlacesModal from '../EditAddPlacesModal';
 import useUpdatePlace from '../../hooks/useUpdatePlace';
 import useDeletePlace from '../../hooks/useDeletePlace';

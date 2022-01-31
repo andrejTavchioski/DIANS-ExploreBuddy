@@ -1,8 +1,10 @@
 import { useContext, useState } from 'react';
 import axios from 'axios';
-// import jwt from 'jwt-decode';
 import { UserContext } from '../context/UserContext';
 import { toast } from 'react-toastify';
+import { normalizeUser } from '../utils/normalizeUser';
+import { setLocalStorage } from '../utils/localStorage';
+import { getTokenData } from '../utils/getTokenData';
 
 const useSignIn = () => {
     const { setUser } = useContext(UserContext);
@@ -11,50 +13,17 @@ const useSignIn = () => {
     const signIn = async ({ credentials, setAuthModal }) => {
         setIsLoading(true);
         const formData = new FormData();
-        console.log(credentials.email)
-        console.log(credentials.password)
         formData.append("username",credentials.email);
         formData.append("password",credentials.password);
-        console.log(formData.get("username"));
         await axios
-            .post(`/login`, formData)
+            .post(`/api/login`, formData)
             .then((res) => {
                 // TODO DECODE JWT AND SET USER
-                // const token = res.data.token;
-                // const user = jwt(token);
-                // axios.defaults.headers.common['Authorization-token']=token;
-                // localStorage.setItem('token', JSON.stringify(token));
-
-                // JUST FOR MOCK
-                console.log(res);
-                let user = null;
-                // if (
-                //     credentials.email === 'andrej_sk_@hotmail.com' &&
-                //     credentials.password === 'tavco'
-                // ) {
-                //     user = {
-                //         email: 'andrej_sk_@hotmail.com',
-                //         role: 'ROLE_USER',
-                //     };
-                // } else if (
-                //     credentials.email === 'admin@gmail.com' &&
-                //     credentials.password === 'admin'
-                // ) {
-                //     user = {
-                //         email: 'viktor-tasevski@hotmail.com',
-                //         role: 'ROLE_ADMIN',
-                //     };
-                // } else if (
-                //     credentials.email === 'andrej.tavchioski@gmail.com' &&
-                //     credentials.password === 'tavco'
-                // ) {
-                //     user = {
-                //         email: 'andrej.tavchioski@hotmail.com',
-                //         role: 'ROLE_USER',
-                //     };
-                // }
-                if (!user) throw Error('Email or password incorrect!');
-                setUser(user);
+                const token = res.data.access_token;
+                const user = getTokenData(token);
+                axios.defaults.headers.common['Authorization']= `Bearer ${token}`;
+                setLocalStorage('token', token);
+                setUser(normalizeUser(user));
                 setAuthModal({ isOpen: false });
             })
             .catch((err) => {

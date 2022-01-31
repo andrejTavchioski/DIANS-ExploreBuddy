@@ -4,7 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from "axios";
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.patch['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
+axios.defaults.timeout = 10000;
+axios.defaults.withCredentials = true;
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

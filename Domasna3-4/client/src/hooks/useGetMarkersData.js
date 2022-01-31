@@ -4,9 +4,24 @@ import axios from 'axios';
 const useGetMarkersData = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [markersData, setMarkersData] = useState(null);
-    const getMarkersData = async () => {
+    const getMarkersData = async (
+        locationsTypes = [],
+        searchValue = '',
+        isFavourite = false
+    ) => {
+        let queryString = '?';
+        if(locationsTypes.length !== 0) {
+            const locations = locationsTypes.join(',');
+            queryString += `locationTypeString=${locations}&`;
+        }
+        if(searchValue !== '') {
+            queryString += `searchText=${searchValue.trim()}&`;
+        }
+        if(isFavourite) {
+            queryString += `isFavourite=${isFavourite}`;
+        }
         await axios
-            .get(`/home/markers`)
+            .get(`/home/markers${queryString}`)
             .then(({ data }) => {
                 setMarkersData(data);
             })
