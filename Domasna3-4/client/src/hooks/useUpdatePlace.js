@@ -8,16 +8,22 @@ const useUpdatePlace = () => {
     const [isLoading, setIsLoading] = useState(false);
     const updatePlace = async ({ data, id, setIsModalOpen }) => {
         setIsLoading(true);
-        console.log(data)
         await axios
-            .put(`/home/update`, { ...data, id })
+            .post(`https://explore-buddy-backend.herokuapp.com/home/update`, {
+                ...data,
+                id,
+            })
             .then((res) => {
-                setSelectedPlace(res.data); // TODO => res.data
-                updateUIMarker({ id, type: res.data.type, name: res.data.name }); // TODO => res.data.type, res.data.name
+                setSelectedPlace(res.data);
+                updateUIMarker({
+                    id,
+                    type: res.data.type,
+                    name: res.data.name,
+                }); // TODO => res.data.type, res.data.name
                 setIsModalOpen(false);
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
                 toast.error('Invalid input!', {
                     position: 'top-center',
                     autoClose: 5000,

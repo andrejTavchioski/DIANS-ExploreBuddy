@@ -48,7 +48,7 @@ const ChoosenMarker = ({ type, isSelected, id, onMarkerClick }) => {
     );
 };
 
-const GoogleMaps = ({ data }) => {
+const GoogleMaps = ({ data = []}) => {
     const { selectedPlace, getPlaceDesc } = useContext(UtilsContext);
     const defaultProps = {
         center: {
@@ -76,7 +76,7 @@ const GoogleMaps = ({ data }) => {
                 }
                 yesIWantToUseGoogleMapApiInternals={true}
             >
-                {data.map((d, ind) => (
+                {data && Array.isArray(data) && data.map((d, ind) => (
                     <ChoosenMarker
                         key={ind}
                         type={d.type}

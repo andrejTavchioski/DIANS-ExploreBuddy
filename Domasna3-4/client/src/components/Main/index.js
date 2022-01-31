@@ -19,22 +19,15 @@ const Main = () => {
         selectedPlace,
         setSelectedPlace,
     });
-    const updateUIMarker = ({ id, name, type, isFavourite }) => {
+    const updateUIMarker = ({ id, name, type, favourite }) => {
         const marker = markersData.find((m) => m.id === id);
-        // const updatedMarker={
-        //     ...marker,
-        //     name:name ??marker.name,
-        //     type:type ??marker.type,
-        //     id:id ?? marker.id,
-        //     isFavourite: isFavourite ?? marker.isFavourite
-        // };
         if (name) marker.name = name;
         if (type) marker.type = type;
-        if (isFavourite !== undefined) {
-            marker.isFavourite = !selectedPlace.isFavourite;
+        if (favourite !== undefined) {
+            marker.favourite = !selectedPlace.favourite;
             setSelectedPlace({
                 ...selectedPlace,
-                isFavourite,
+                favourite,
             });
         }
         setMarkersData([...markersData,marker])
@@ -67,7 +60,10 @@ const Main = () => {
                     searchValue={searchValue}
                     setSearchValue={setSearchValue}
                 />
-                <RightSide searchValue={searchValue} />
+                <RightSide
+                    searchValue={searchValue}
+                    getMarkersData={getMarkersData}
+                />
             </UtilsContext.Provider>
         </Wrapper>
     );
